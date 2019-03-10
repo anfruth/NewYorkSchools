@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		77888E12223468B100308D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E11223468B100308D29 /* AppDelegate.swift */; };
-		77888E14223468B100308D29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* ViewController.swift */; };
+		77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* SchoolsListViewController.swift */; };
 		77888E17223468B100308D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E15223468B100308D29 /* Main.storyboard */; };
 		77888E19223468B300308D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77888E18223468B300308D29 /* Assets.xcassets */; };
 		77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E1A223468B300308D29 /* LaunchScreen.storyboard */; };
 		77888E27223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */; };
+		77888E322234734F00308D29 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E312234734F00308D29 /* Networking.swift */; };
+		77888E342234770600308D29 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E332234770600308D29 /* School.swift */; };
+		77888E36223478C300308D29 /* SATScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E35223478C300308D29 /* SATScores.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +31,7 @@
 /* Begin PBXFileReference section */
 		77888E0E223468B100308D29 /* 20190309-AndrewFruth-NYCSchools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E11223468B100308D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		77888E13223468B100308D29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		77888E13223468B100308D29 /* SchoolsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolsListViewController.swift; sourceTree = "<group>"; };
 		77888E16223468B100308D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		77888E18223468B300308D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77888E1B223468B300308D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +39,9 @@
 		77888E22223468B300308D29 /* 20190309-AndrewFruth-NYCSchoolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchoolsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _0190309_AndrewFruth_NYCSchoolsTests.swift; sourceTree = "<group>"; };
 		77888E28223468B300308D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77888E312234734F00308D29 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		77888E332234770600308D29 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		77888E35223478C300308D29 /* SATScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATScores.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +84,10 @@
 			isa = PBXGroup;
 			children = (
 				77888E11223468B100308D29 /* AppDelegate.swift */,
-				77888E13223468B100308D29 /* ViewController.swift */,
+				77888E13223468B100308D29 /* SchoolsListViewController.swift */,
+				77888E312234734F00308D29 /* Networking.swift */,
+				77888E332234770600308D29 /* School.swift */,
+				77888E35223478C300308D29 /* SATScores.swift */,
 				77888E15223468B100308D29 /* Main.storyboard */,
 				77888E18223468B300308D29 /* Assets.xcassets */,
 				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
@@ -197,8 +206,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77888E14223468B100308D29 /* ViewController.swift in Sources */,
+				77888E322234734F00308D29 /* Networking.swift in Sources */,
+				77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */,
 				77888E12223468B100308D29 /* AppDelegate.swift in Sources */,
+				77888E36223478C300308D29 /* SATScores.swift in Sources */,
+				77888E342234770600308D29 /* School.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
