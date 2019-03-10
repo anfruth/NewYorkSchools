@@ -13,7 +13,7 @@ struct Networking {
     static let session = URLSession.shared
     static let schoolResultsPerCall = 50
     
-    static func retrieveSchoolData(schoolIndex: Int = 0, completionHandler: @escaping ([School]) -> ()) {
+    static func retrieveSchoolData(with schoolIndex: Int, completionHandler: @escaping ([School]) -> ()) {
         let schoolEndpoint = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
         
         let orderParam = "$order=dbn"

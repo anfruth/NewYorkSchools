@@ -8,24 +8,41 @@
 
 import UIKit
 
-final class SchoolsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class SchoolsListViewController: UIViewController {
 
     @IBOutlet weak var schoolsListTableView: UITableView!
     var schools: [School] = []
     var schoolClicked: School?
+    lazy var spinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
+    var populateTableWithSchoolDataUnderway = false
+    var retrievedAllSchools = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         schoolsListTableView.dataSource = self
         schoolsListTableView.delegate = self
+        spinner.hidesWhenStopped = true
+        schoolsListTableView.tableFooterView = spinner
         populateTableWithSchoolData()
     }
     
-    func populateTableWithSchoolData() {
-        Networking.retrieveSchoolData() { [weak self] (schools) in
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSchoolDetail" {
+            if let schoolDetailVC = segue.destination as? SchoolDetailViewController {
+                schoolDetailVC.school = schoolClicked
+            }
+        }
+    }
+    
+    func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
+        populateTableWithSchoolDataUnderway = true
+        Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
             DispatchQueue.main.async {
+                if schools.count == 0 { self?.retrievedAllSchools = true }
                 self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
+                self?.populateTableWithSchoolDataUnderway = false
+                completionHandler?()
             }
         }
     }
@@ -79,6 +96,9 @@ final class SchoolsListViewController: UIViewController, UITableViewDataSource, 
         }
 
     }
+}
+
+extension SchoolsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -93,6 +113,10 @@ final class SchoolsListViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return schools.count
     }
+    
+}
+
+extension SchoolsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -109,17 +133,19 @@ final class SchoolsListViewController: UIViewController, UITableViewDataSource, 
             self.schoolClicked = schools[indexPath.row]
             performSegue(withIdentifier: "showSchoolDetail", sender: self)
         }
-
+        
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSchoolDetail" {
-            if let schoolDetailVC = segue.destination as? SchoolDetailViewController {
-                schoolDetailVC.school = schoolClicked
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let schoolsCount = schools.count
+        
+        if schoolsCount - 1 == indexPath.row && !populateTableWithSchoolDataUnderway && !retrievedAllSchools {
+            spinner.startAnimating()
+            
+            let schoolIndex = (schoolsCount / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
+            populateTableWithSchoolData(with: schoolIndex) { [weak self] in
+                self?.spinner.stopAnimating()
             }
         }
     }
-
-
 }
-
