@@ -8,11 +8,12 @@
 
 import Foundation
 
-class School: Codable {
+@objc final class School: NSObject, Codable {
     let dbn: String
-    let name: String
+    @objc let name: String
     
-    var satScores: SATScores?
+    @objc var satScores: SATScores?
+    var noScoreAvailable = false
     
     enum CodingKeys: String, CodingKey {
         case dbn

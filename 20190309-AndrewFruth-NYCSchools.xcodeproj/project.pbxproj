@@ -16,6 +16,7 @@
 		77888E322234734F00308D29 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E312234734F00308D29 /* Networking.swift */; };
 		77888E342234770600308D29 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E332234770600308D29 /* School.swift */; };
 		77888E36223478C300308D29 /* SATScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E35223478C300308D29 /* SATScores.swift */; };
+		77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77888E392234CED000308D29 /* SchoolDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,9 @@
 		77888E312234734F00308D29 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		77888E332234770600308D29 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
 		77888E35223478C300308D29 /* SATScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATScores.swift; sourceTree = "<group>"; };
+		77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "20190309-AndrewFruth-NYCSchools-Bridging-Header.h"; sourceTree = "<group>"; };
+		77888E382234CED000308D29 /* SchoolDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDetailViewController.h; sourceTree = "<group>"; };
+		77888E392234CED000308D29 /* SchoolDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 			children = (
 				77888E11223468B100308D29 /* AppDelegate.swift */,
 				77888E13223468B100308D29 /* SchoolsListViewController.swift */,
+				77888E382234CED000308D29 /* SchoolDetailViewController.h */,
+				77888E392234CED000308D29 /* SchoolDetailViewController.m */,
 				77888E312234734F00308D29 /* Networking.swift */,
 				77888E332234770600308D29 /* School.swift */,
 				77888E35223478C300308D29 /* SATScores.swift */,
@@ -92,6 +98,7 @@
 				77888E18223468B300308D29 /* Assets.xcassets */,
 				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
 				77888E1D223468B300308D29 /* Info.plist */,
+				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
 			);
 			path = "20190309-AndrewFruth-NYCSchools";
 			sourceTree = "<group>";
@@ -155,6 +162,7 @@
 				TargetAttributes = {
 					77888E0D223468B100308D29 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					77888E21223468B300308D29 = {
 						CreatedOnToolsVersion = 10.1;
@@ -211,6 +219,7 @@
 				77888E12223468B100308D29 /* AppDelegate.swift in Sources */,
 				77888E36223478C300308D29 /* SATScores.swift in Sources */,
 				77888E342234770600308D29 /* School.swift in Sources */,
+				77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +381,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L6677SELQ2;
 				INFOPLIST_FILE = "20190309-AndrewFruth-NYCSchools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -381,6 +392,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "andrew.fruth.-0190309-AndrewFruth-NYCSchools";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "20190309-AndrewFruth-NYCSchools/20190309-AndrewFruth-NYCSchools-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -390,7 +403,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L6677SELQ2;
 				INFOPLIST_FILE = "20190309-AndrewFruth-NYCSchools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -399,6 +414,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "andrew.fruth.-0190309-AndrewFruth-NYCSchools";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "20190309-AndrewFruth-NYCSchools/20190309-AndrewFruth-NYCSchools-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
