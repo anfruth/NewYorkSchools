@@ -43,7 +43,7 @@ final class SchoolsListViewController: UIViewController {
         Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
             DispatchQueue.main.async {
                 if let schools = schools {
-                    if schools.count == 0 { self?.retrievedAllSchools = true }
+                    if schools.count == 0  || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
                     self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
                 }
                 
