@@ -10,7 +10,10 @@ import UIKit
 
 final class SchoolsListViewController: UIViewController {
 
+    @IBOutlet weak var transitionVCSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var transitionVCSpinnerSuperview: UIView!
     @IBOutlet weak var schoolsListTableView: UITableView!
+    
     var schools: [School] = []
     var schoolClicked: School?
     lazy var spinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
@@ -39,8 +42,11 @@ final class SchoolsListViewController: UIViewController {
         populateTableWithSchoolDataUnderway = true
         Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
             DispatchQueue.main.async {
-                if schools.count == 0 { self?.retrievedAllSchools = true }
-                self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
+                if let schools = schools {
+                    if schools.count == 0 { self?.retrievedAllSchools = true }
+                    self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
+                }
+                
                 self?.populateTableWithSchoolDataUnderway = false
                 completionHandler?()
             }
@@ -52,7 +58,7 @@ final class SchoolsListViewController: UIViewController {
         schoolsListTableView.reloadData()
     }
     
-    private func addSATDataToSchools(with schoolIndex: Int, completionHandler: @escaping () -> ()) {
+    private func addSATDataToSchools(with schoolIndex: Int, completionHandler: @escaping (Error?) -> ()) {
         
         let schoolBeginIndex = schoolIndex * Networking.schoolResultsPerCall
         var schoolEndIndex: Int
@@ -68,7 +74,10 @@ final class SchoolsListViewController: UIViewController {
         Networking.retrieveAssociatedSATScores(from: schoolsToQuery) { [weak self] (satScoresList, error) in
             
             guard let satScoresList = satScoresList, error == nil else {
-                completionHandler()
+                DispatchQueue.main.async {
+                    completionHandler(error)
+                }
+                
                 return
             }
             
@@ -80,7 +89,7 @@ final class SchoolsListViewController: UIViewController {
 
             DispatchQueue.main.async { [weak self] in
                 self?.saveSATDataToCache(with: schoolsToQuery, scoresIDMapping: satScoresDict)
-                completionHandler()
+                completionHandler(error)
             }
         }
     }
@@ -124,7 +133,13 @@ extension SchoolsListViewController: UITableViewDelegate {
         if schoolClicked.satScores == nil && !schoolClicked.noScoreAvailable {
             let schoolIndex = (indexPath.row / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
             
-            addSATDataToSchools(with: schoolIndex) { [weak self] in
+            transitionVCSpinner.isHidden = false
+            transitionVCSpinner.startAnimating()
+            transitionVCSpinnerSuperview.isHidden = false
+            
+            addSATDataToSchools(with: schoolIndex) { [weak self] error in
+                self?.transitionVCSpinnerSuperview.isHidden = true
+                self?.transitionVCSpinner.stopAnimating()
                 guard let schoolClicked = self?.schools[indexPath.row] else { return }
                 self?.schoolClicked = schoolClicked
                 self?.performSegue(withIdentifier: "showSchoolDetail", sender: self)

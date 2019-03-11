@@ -15,6 +15,12 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *satReadingCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *satMathCell;
 
+typedef NS_ENUM(NSUInteger, SATTest) {
+    Writing,
+    Reading,
+    Math
+};
+
 @end
 
 @implementation SchoolDetailViewController
@@ -22,9 +28,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.satWritingCell.textLabel.text = [NSString stringWithFormat: @"Writing SAT: %@",  self.school.satScores.writing.stringValue];
-    self.satReadingCell.textLabel.text = [NSString stringWithFormat: @"Reading SAT: %@",  self.school.satScores.reading.stringValue];
-    self.satMathCell.textLabel.text = [NSString stringWithFormat: @"Math SAT: %@",  self.school.satScores.math.stringValue];
+    self.satWritingCell.textLabel.text = [self generateTextWithTest:Writing];
+    self.satReadingCell.textLabel.text = [self generateTextWithTest:Reading];
+    self.satMathCell.textLabel.text = [self generateTextWithTest:Math];
+}
+
+- (nullable NSString *)generateTextWithTest:(SATTest)test {
+    NSString *noneAvailable = @"None Available";
+
+    if (test == Writing) {
+        NSString *writingScore = self.school.satScores.writing.stringValue;
+        NSString *writingScoreText = writingScore ? writingScore : noneAvailable;
+        return [NSString stringWithFormat: @"Writing SAT: %@",  writingScoreText];
+
+    } else if (test == Reading) {
+        NSString *readingScore = self.school.satScores.reading.stringValue;
+        NSString *readingScoreText = readingScore ? readingScore : noneAvailable;
+        return [NSString stringWithFormat: @"Reading SAT: %@",  readingScoreText];
+
+    } else if (test == Math) {
+        NSString *mathScore = self.school.satScores.math.stringValue;
+        NSString *mathScoreText = mathScore ? mathScore : noneAvailable;
+        return [NSString stringWithFormat: @"Math SAT: %@",  mathScoreText];
+
+    }
+
+    return nil;
 }
 
 @end

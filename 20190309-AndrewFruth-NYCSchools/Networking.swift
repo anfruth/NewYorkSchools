@@ -13,7 +13,7 @@ struct Networking {
     static let session = URLSession.shared
     static let schoolResultsPerCall = 50
     
-    static func retrieveSchoolData(with schoolIndex: Int, completionHandler: @escaping ([School]) -> ()) {
+    static func retrieveSchoolData(with schoolIndex: Int, completionHandler: @escaping ([School]?) -> ()) {
         let schoolEndpoint = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
         
         let orderParam = "$order=dbn"
@@ -22,11 +22,20 @@ struct Networking {
         
         let schoolEndpointWithParams = "\(schoolEndpoint)?\(orderParam)&\(limitParam)&\(offset)"
         
-        guard let schoolURLWithParams = URL(string: schoolEndpointWithParams) else { return }
+        guard let schoolURLWithParams = URL(string: schoolEndpointWithParams) else {
+            completionHandler(nil)
+            return
+        }
         
         let task = Networking.session.dataTask(with: schoolURLWithParams) { data, response, error in
-            guard let data = data else { return }
-            guard let schools = try? JSONDecoder().decode([School].self, from: data) else { return }
+            guard let data = data else {
+                completionHandler(nil)
+                return
+            }
+            guard let schools = try? JSONDecoder().decode([School].self, from: data) else {
+                completionHandler(nil)
+                return
+            }
             
             completionHandler(schools)
         }
