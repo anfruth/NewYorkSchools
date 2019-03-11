@@ -44,7 +44,7 @@ struct Networking {
     
     // MARK: - Helper Networking Methods
     private static func generateSchoolEndpointWithParams(schoolPartitionIndex: Int) -> String {
-        let orderParam = "$order=dbn"
+        let orderParam = "$order=school_name"
         let limitParam = "$limit=\(Networking.schoolResultsPerCall)"
         let offset = "$offset=\(schoolPartitionIndex * schoolResultsPerCall)"
         
