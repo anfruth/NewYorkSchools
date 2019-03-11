@@ -10,22 +10,48 @@ import Foundation
 
 struct Networking {
     
-    static let session = URLSession.shared
     static let schoolResultsPerCall = 50
+    private static let session = URLSession.shared
+    private static let schoolEndpoint = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
+    private static let satEndpoint = "https://data.cityofnewyork.us/resource/f9bf-2cp4.json"
     
-    static func retrieveSchoolData(with schoolIndex: Int, completionHandler: @escaping ([School]?) -> ()) {
-        let schoolEndpoint = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
+    // MARK: - Core Networking Methods
+    static func retrieveSchoolData(with schoolPartitionIndex: Int, completionHandler: @escaping ([School]?) -> ()) {
         
-        let orderParam = "$order=dbn"
-        let limitParam = "$limit=50"
-        let offset = "$offset=\(schoolIndex * schoolResultsPerCall)"
-        
-        let schoolEndpointWithParams = "\(schoolEndpoint)?\(orderParam)&\(limitParam)&\(offset)"
-        
+        let schoolEndpointWithParams = Networking.generateSchoolEndpointWithParams(schoolPartitionIndex: schoolPartitionIndex)
         guard let schoolURLWithParams = URL(string: schoolEndpointWithParams) else {
             completionHandler(nil)
             return
         }
+        
+        Networking.makeSchoolDataNetworkCall(with: schoolURLWithParams, completionHandler: completionHandler)
+    }
+    
+    static func retrieveAssociatedSATScores(from schools: ArraySlice<School>, completionHandler: @escaping ([SATScores]?, Error?) -> ()) {
+        guard let encodedParmaas = generateEncodedParamsForSATScores(from: schools),
+            let satURL = URL(string: "\(satEndpoint)\(encodedParmaas)") else {
+                
+            completionHandler(nil, nil)
+            return
+        }
+        
+        let task = Networking.session.dataTask(with: satURL) { data, response, error in
+            handleSATScoresProcessing(from: data, error: error, completionHandler: completionHandler)
+        }
+        
+        task.resume()
+    }
+    
+    // MARK: - Helper Networking Methods
+    private static func generateSchoolEndpointWithParams(schoolPartitionIndex: Int) -> String {
+        let orderParam = "$order=dbn"
+        let limitParam = "$limit=\(Networking.schoolResultsPerCall)"
+        let offset = "$offset=\(schoolPartitionIndex * schoolResultsPerCall)"
+        
+        return "\(Networking.schoolEndpoint)?\(orderParam)&\(limitParam)&\(offset)"
+    }
+    
+    private static func makeSchoolDataNetworkCall(with schoolURLWithParams: URL, completionHandler: @escaping ([School]?) -> ()) {
         
         let task = Networking.session.dataTask(with: schoolURLWithParams) { data, response, error in
             guard let data = data else {
@@ -43,9 +69,17 @@ struct Networking {
         task.resume()
     }
     
-    static func retrieveAssociatedSATScores(from schools: ArraySlice<School>, completionHandler: @escaping ([SATScores]?, Error?) -> ()) {
-        let satEndpoint = "https://data.cityofnewyork.us/resource/f9bf-2cp4.json"
+    private static func handleSATScoresProcessing(from data: Data?, error: Error?, completionHandler: @escaping ([SATScores]?, Error?) -> ()) {
         
+        guard let data = data, let satScores = try? JSONDecoder().decode([SATScores].self, from: data) else {
+            completionHandler(nil, error)
+            return
+        }
+        
+        completionHandler(satScores, error)
+    }
+    
+    private static func generateEncodedParamsForSATScores(from schools: ArraySlice<School>) -> String? {
         let schoolDBNs = schools.map { $0.dbn }
         
         var params = "?$where="
@@ -56,27 +90,7 @@ struct Networking {
             }
         }
         
-        guard let paramsEncoded = params.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
-        let satEndPointWithParams = "\(satEndpoint)\(paramsEncoded)"
-        
-        guard let satURL = URL(string: satEndPointWithParams) else { return }
-        
-        let task = Networking.session.dataTask(with: satURL) { data, response, error in
-            
-            guard let data = data else {
-                completionHandler(nil, error)
-                return
-            }
-            
-            guard let satScores = try? JSONDecoder().decode([SATScores].self, from: data) else {
-                completionHandler(nil, error)
-                return
-            }
-            
-            completionHandler(satScores, error)
-        }
-        
-        task.resume()
+        return params.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
     }
 
 }

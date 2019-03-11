@@ -21,6 +21,9 @@ final class SchoolsListViewController: UIViewController {
     var populateTableWithSchoolDataUnderway = false
     var retrievedAllSchools = false
     
+    let schoolDetailSegueID = "showSchoolDetail"
+    let schoolCellID = "schoolCell"
+    
     // MARK: - Overriden Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +32,12 @@ final class SchoolsListViewController: UIViewController {
         schoolsListTableView.delegate = self
         footerSpinner.hidesWhenStopped = true
         schoolsListTableView.tableFooterView = footerSpinner
+        
         populateTableWithSchoolData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSchoolDetail" {
+        if segue.identifier == schoolDetailSegueID {
             if let schoolDetailVC = segue.destination as? SchoolDetailViewController {
                 schoolDetailVC.school = schoolClicked
             }
@@ -168,7 +172,7 @@ final class SchoolsListViewController: UIViewController {
     
     private func performDetailVCSegue(with schoolClicked: School) {
         self.schoolClicked = schoolClicked
-        performSegue(withIdentifier: "showSchoolDetail", sender: self)
+        performSegue(withIdentifier: schoolDetailSegueID, sender: self)
     }
     
     private func getSchoolPartitionIndex(from schoolIndex: Int) -> Int {
@@ -190,7 +194,7 @@ extension SchoolsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let schoolCell = schoolsListTableView.dequeueReusableCell(withIdentifier: "schoolCell") {
+        if let schoolCell = schoolsListTableView.dequeueReusableCell(withIdentifier: schoolCellID) {
             schoolCell.textLabel?.text = schools[indexPath.row].name
             return schoolCell
         }
