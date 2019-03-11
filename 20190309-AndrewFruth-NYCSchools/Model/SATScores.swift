@@ -9,11 +9,11 @@
 import Foundation
 
 @objc final class SATScores: NSObject, Decodable {
-    let dbn: String
-    
     @objc let reading: NSNumber?
     @objc let math: NSNumber?
     @objc let writing: NSNumber?
+    
+    let dbn: String
     
     enum CodingKeys: String, CodingKey {
         case dbn
@@ -29,24 +29,18 @@ import Foundation
         let readingString = try values.decode(String.self, forKey: .reading)
         let mathString = try values.decode(String.self, forKey: .math)
         let writingString = try values.decode(String.self, forKey: .writing)
-        
-        if let reading = Int(readingString) {
-            self.reading = NSNumber(value: reading)
-        } else {
-            self.reading = nil
+
+        self.reading = SATScores.convertToNSNumber(with: readingString)
+        self.math = SATScores.convertToNSNumber(with: mathString)
+        self.writing = SATScores.convertToNSNumber(with: writingString)
+    }
+    
+    static private func convertToNSNumber(with string: String) -> NSNumber? {
+        if let intString = Int(string) {
+            return NSNumber(value: intString)
         }
         
-        if let math = Int(mathString) {
-            self.math = NSNumber(value: math)
-        } else {
-            self.math = nil
-        }
-        
-        if let writing = Int(writingString) {
-            self.writing = NSNumber(value: writing)
-        } else {
-            self.writing = nil
-        }
+        return nil
     }
 }
 

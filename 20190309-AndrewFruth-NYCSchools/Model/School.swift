@@ -8,11 +8,11 @@
 
 import Foundation
 
-@objc final class School: NSObject, Codable {
-    let dbn: String
+@objc final class School: NSObject, Decodable {
     @objc let name: String
-    
     @objc var satScores: SATScores?
+    
+    let dbn: String
     var noScoreAvailable = false
     
     enum CodingKeys: String, CodingKey {

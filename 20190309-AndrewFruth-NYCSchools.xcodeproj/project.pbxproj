@@ -66,6 +66,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		773CA10B2235F1700082742D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				77888E332234770600308D29 /* School.swift */,
+				77888E35223478C300308D29 /* SATScores.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		773CA10C2235F1930082742D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				77888E13223468B100308D29 /* SchoolsListViewController.swift */,
+				77888E382234CED000308D29 /* SchoolDetailViewController.h */,
+				77888E392234CED000308D29 /* SchoolDetailViewController.m */,
+				77888E312234734F00308D29 /* Networking.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		773CA10E2235F1C10082742D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
+				77888E15223468B100308D29 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		77888E05223468B100308D29 = {
 			isa = PBXGroup;
 			children = (
@@ -88,15 +117,10 @@
 			isa = PBXGroup;
 			children = (
 				77888E11223468B100308D29 /* AppDelegate.swift */,
-				77888E13223468B100308D29 /* SchoolsListViewController.swift */,
-				77888E382234CED000308D29 /* SchoolDetailViewController.h */,
-				77888E392234CED000308D29 /* SchoolDetailViewController.m */,
-				77888E312234734F00308D29 /* Networking.swift */,
-				77888E332234770600308D29 /* School.swift */,
-				77888E35223478C300308D29 /* SATScores.swift */,
-				77888E15223468B100308D29 /* Main.storyboard */,
+				773CA10E2235F1C10082742D /* View */,
+				773CA10C2235F1930082742D /* Controller */,
+				773CA10B2235F1700082742D /* Model */,
 				77888E18223468B300308D29 /* Assets.xcassets */,
-				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
 				77888E1D223468B300308D29 /* Info.plist */,
 				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
 			);
