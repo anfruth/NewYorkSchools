@@ -24,4 +24,8 @@ import Foundation
         self.dbn = dbn
         self.name = schoolName
     }
+    
+    func needsToRetrieveScores() -> Bool {
+        return satScores == nil && !noScoreAvailable
+    }
 }

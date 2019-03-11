@@ -16,17 +16,19 @@ final class SchoolsListViewController: UIViewController {
     
     var schools: [School] = []
     var schoolClicked: School?
-    lazy var spinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
+    lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
+    
     var populateTableWithSchoolDataUnderway = false
     var retrievedAllSchools = false
     
+    // MARK: - Overriden Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         schoolsListTableView.dataSource = self
         schoolsListTableView.delegate = self
-        spinner.hidesWhenStopped = true
-        schoolsListTableView.tableFooterView = spinner
+        footerSpinner.hidesWhenStopped = true
+        schoolsListTableView.tableFooterView = footerSpinner
         populateTableWithSchoolData()
     }
     
@@ -38,18 +40,28 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
-    func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
+    // MARK: - Retrieve And Handle School Data Methods
+    private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
+        
         populateTableWithSchoolDataUnderway = true
         Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
-            DispatchQueue.main.async {
-                if let schools = schools {
-                    if schools.count == 0  || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
-                    self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
-                }
-                
-                self?.populateTableWithSchoolDataUnderway = false
+            if let vc = self {
+                vc.handleProcessingSchoolData(with: schools, completionHandler: completionHandler)
+            } else {
                 completionHandler?()
             }
+        }
+    }
+    
+    private func handleProcessingSchoolData(with schools: [School]?, completionHandler: (() -> ())?) {
+        DispatchQueue.main.async { [weak self] in
+            if let schools = schools {
+                if schools.count == 0 || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
+                self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
+            }
+            
+            self?.populateTableWithSchoolDataUnderway = false
+            completionHandler?()
         }
     }
     
@@ -58,39 +70,41 @@ final class SchoolsListViewController: UIViewController {
         schoolsListTableView.reloadData()
     }
     
-    private func addSATDataToSchools(with schoolIndex: Int, completionHandler: @escaping (Error?) -> ()) {
+    // MARK: - Core Retrieve And Handle SAT Scores Methods
+    
+    private func handleRetrievingSATScores(with schoolClicked: School, indexPath: IndexPath) {
+        let schoolParitionIndex = getSchoolPartitionIndex(from: indexPath.row)
         
-        let schoolBeginIndex = schoolIndex * Networking.schoolResultsPerCall
-        var schoolEndIndex: Int
-        if schools.count < schoolBeginIndex + Networking.schoolResultsPerCall {
-            schoolEndIndex = schools.count
-        } else {
-            schoolEndIndex = schoolBeginIndex + Networking.schoolResultsPerCall
+        startTransitionSpinner()
+        addSATDataToSchools(with: schoolParitionIndex) { [weak self] error in
+            self?.stopTransitionSpinner()
+            self?.performDetailVCSegue(with: schoolClicked)
         }
-        
-        let rangeOfSchools = schoolBeginIndex..<schoolEndIndex
-        let schoolsToQuery = self.schools[rangeOfSchools]
+    }
+    
+    private func addSATDataToSchools(with schoolPartitionIndex: Int, completionHandler: @escaping (Error?) -> ()) {
+        let schoolsToQuery = getSchoolsToQueryForSATScores(with: schoolPartitionIndex)
         
         Networking.retrieveAssociatedSATScores(from: schoolsToQuery) { [weak self] (satScoresList, error) in
-            
-            guard let satScoresList = satScoresList, error == nil else {
-                DispatchQueue.main.async {
-                    completionHandler(error)
-                }
-                
-                return
-            }
-            
-            var satScoresDict: [String: SATScores] = [:]
-            
-            for satScores in satScoresList {
-                satScoresDict[satScores.dbn] = satScores
-            }
-
-            DispatchQueue.main.async { [weak self] in
-                self?.saveSATDataToCache(with: schoolsToQuery, scoresIDMapping: satScoresDict)
+            if let vc = self {
+                vc.handleProcessingSATScores(for: schoolsToQuery, satScoresList: satScoresList, error: error, completionHandler: completionHandler)
+            } else {
                 completionHandler(error)
             }
+        }
+    }
+    
+    private func handleProcessingSATScores(for schoolsToQuery: ArraySlice<School>, satScoresList: [SATScores]?, error: Error?, completionHandler: @escaping (Error?) -> () ) {
+        
+        guard let satScoresList = satScoresList, error == nil else {
+            DispatchQueue.main.async { completionHandler(error) }
+            return
+        }
+        
+        let satScoresDict = setUpSchoolToSATScoreMapping(satScoresList: satScoresList)
+        DispatchQueue.main.async { [weak self] in
+            self?.saveSATDataToCache(with: schoolsToQuery, scoresIDMapping: satScoresDict)
+            completionHandler(error)
         }
     }
     
@@ -103,10 +117,75 @@ final class SchoolsListViewController: UIViewController {
                 school.satScores = scoresIDMapping[school.dbn]
             }
         }
-
+    }
+    
+    // MARK: - Helper SAT Scores Methods
+    private func getSchoolsToQueryForSATScores(with schoolParitionIndex: Int) -> ArraySlice<School> {
+        
+        let schoolBeginIndex = schoolParitionIndex * Networking.schoolResultsPerCall
+        let schoolEndIndex = getSchoolEndIndex(with: schoolBeginIndex)
+        
+        let rangeOfSchools = schoolBeginIndex..<schoolEndIndex
+        return schools[rangeOfSchools]
+    }
+    
+    private func setUpSchoolToSATScoreMapping(satScoresList: [SATScores]) -> [String: SATScores] {
+        var satScoresDict: [String: SATScores] = [:]
+        
+        for satScores in satScoresList {
+            satScoresDict[satScores.dbn] = satScores
+        }
+        
+        return satScoresDict
+    }
+    
+    private func getSchoolEndIndex(with schoolBeginIndex: Int) -> Int {
+        
+        var schoolEndIndex: Int
+        if schools.count < schoolBeginIndex + Networking.schoolResultsPerCall {
+            schoolEndIndex = schools.count
+        } else {
+            schoolEndIndex = schoolBeginIndex + Networking.schoolResultsPerCall
+        }
+        
+        return schoolEndIndex
+    }
+    
+    // MARK: - Handle Transition Spinner Methods
+    
+    private func startTransitionSpinner() {
+        transitionVCSpinner.isHidden = false
+        transitionVCSpinner.startAnimating()
+        transitionVCSpinnerSuperview.isHidden = false
+    }
+    
+    private func stopTransitionSpinner() {
+        transitionVCSpinnerSuperview.isHidden = true
+        transitionVCSpinner.stopAnimating()
+    }
+    
+    // MARK: - Small Helper Methods
+    
+    private func performDetailVCSegue(with schoolClicked: School) {
+        self.schoolClicked = schoolClicked
+        performSegue(withIdentifier: "showSchoolDetail", sender: self)
+    }
+    
+    private func getSchoolPartitionIndex(from schoolIndex: Int) -> Int {
+        return (schoolIndex / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
+    }
+    
+    private func needToDownloadMoreSchools(schoolsCount: Int, indexPath: IndexPath) -> Bool {
+        let lastDownloadCellDisplayed = lastDownloadedCellWillDisplay(schoolsCount: schoolsCount, indexPath: indexPath)
+        return lastDownloadCellDisplayed && !populateTableWithSchoolDataUnderway && !retrievedAllSchools
+    }
+    
+    private func lastDownloadedCellWillDisplay(schoolsCount: Int, indexPath: IndexPath) -> Bool {
+        return schoolsCount - 1 == indexPath.row
     }
 }
 
+// MARK: - School List Table Data Source
 extension SchoolsListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,28 +204,16 @@ extension SchoolsListViewController: UITableViewDataSource {
     
 }
 
+// MARK: - School List Table Delegate
 extension SchoolsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let schoolClicked = schools[indexPath.row]
-        if schoolClicked.satScores == nil && !schoolClicked.noScoreAvailable {
-            let schoolIndex = (indexPath.row / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
-            
-            transitionVCSpinner.isHidden = false
-            transitionVCSpinner.startAnimating()
-            transitionVCSpinnerSuperview.isHidden = false
-            
-            addSATDataToSchools(with: schoolIndex) { [weak self] error in
-                self?.transitionVCSpinnerSuperview.isHidden = true
-                self?.transitionVCSpinner.stopAnimating()
-                guard let schoolClicked = self?.schools[indexPath.row] else { return }
-                self?.schoolClicked = schoolClicked
-                self?.performSegue(withIdentifier: "showSchoolDetail", sender: self)
-            }
+        
+        if schoolClicked.needsToRetrieveScores() {
+            handleRetrievingSATScores(with: schoolClicked, indexPath: indexPath)
         } else {
-            self.schoolClicked = schools[indexPath.row]
-            performSegue(withIdentifier: "showSchoolDetail", sender: self)
+            performDetailVCSegue(with: schoolClicked)
         }
         
     }
@@ -154,12 +221,12 @@ extension SchoolsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let schoolsCount = schools.count
         
-        if schoolsCount - 1 == indexPath.row && !populateTableWithSchoolDataUnderway && !retrievedAllSchools {
-            spinner.startAnimating()
+        if needToDownloadMoreSchools(schoolsCount: schoolsCount, indexPath: indexPath) {
+            let schoolParitionIndex = getSchoolPartitionIndex(from: schoolsCount)
             
-            let schoolIndex = (schoolsCount / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
-            populateTableWithSchoolData(with: schoolIndex) { [weak self] in
-                self?.spinner.stopAnimating()
+            footerSpinner.startAnimating()
+            populateTableWithSchoolData(with: schoolParitionIndex) { [weak self] in
+                self?.footerSpinner.stopAnimating()
             }
         }
     }
