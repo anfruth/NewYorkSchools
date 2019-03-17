@@ -11,6 +11,7 @@ import Foundation
 @objc final class School: NSObject, Decodable {
     @objc let name: String
     @objc var satScores: SATScores?
+    @objc let overview: String
     
     let dbn: String
     var noScoreAvailable = false
@@ -18,11 +19,13 @@ import Foundation
     enum CodingKeys: String, CodingKey {
         case dbn
         case name = "school_name"
+        case overview = "overview_paragraph"
     }
     
-    init(dbn: String, schoolName: String) {
+    init(dbn: String, schoolName: String, overview: String) {
         self.dbn = dbn
         self.name = schoolName
+        self.overview = overview
     }
     
     func needsToRetrieveScores() -> Bool {

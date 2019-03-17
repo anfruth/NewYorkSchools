@@ -9,16 +9,17 @@
 #import "SchoolDetailViewController.h"
 #import "_0190309_AndrewFruth_NYCSchools-Swift.h"
 
-@interface SchoolDetailViewController ()
+@interface SchoolDetailViewController() <UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *satWritingCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *satReadingCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *satMathCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *overviewCell;
 
 typedef NS_ENUM(NSUInteger, SATTest) {
-    Writing,
-    Reading,
-    Math
+    SATTestWriting,
+    SATTestReading,
+    SATTestMath
 };
 
 @end
@@ -27,33 +28,42 @@ typedef NS_ENUM(NSUInteger, SATTest) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.overviewCell.textLabel.numberOfLines = 0;
     
-    self.satWritingCell.textLabel.text = [self generateTextWithTest:Writing];
-    self.satReadingCell.textLabel.text = [self generateTextWithTest:Reading];
-    self.satMathCell.textLabel.text = [self generateTextWithTest:Math];
+    self.title = self.school.name;
+    
+    self.satWritingCell.textLabel.text = [self generateTextWithTest:SATTestWriting];
+    self.satReadingCell.textLabel.text = [self generateTextWithTest:SATTestReading];
+    self.satMathCell.textLabel.text = [self generateTextWithTest:SATTestMath];
+    self.overviewCell.textLabel.text = self.school.overview;
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {
     NSString *noneAvailable = @"None Available";
 
-    if (test == Writing) {
+    if (test == SATTestWriting) {
         NSString *writingScore = self.school.satScores.writing.stringValue;
         NSString *writingScoreText = writingScore ? writingScore : noneAvailable;
-        return [NSString stringWithFormat: @"Writing SAT: %@",  writingScoreText];
+        return [NSString stringWithFormat: @"Writing: %@",  writingScoreText];
 
-    } else if (test == Reading) {
+    } else if (test == SATTestReading) {
         NSString *readingScore = self.school.satScores.reading.stringValue;
         NSString *readingScoreText = readingScore ? readingScore : noneAvailable;
-        return [NSString stringWithFormat: @"Reading SAT: %@",  readingScoreText];
+        return [NSString stringWithFormat: @"Reading: %@",  readingScoreText];
 
-    } else if (test == Math) {
+    } else if (test == SATTestMath) {
         NSString *mathScore = self.school.satScores.math.stringValue;
         NSString *mathScoreText = mathScore ? mathScore : noneAvailable;
-        return [NSString stringWithFormat: @"Math SAT: %@",  mathScoreText];
+        return [NSString stringWithFormat: @"Math: %@",  mathScoreText];
 
     }
 
     return nil;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 50;
+}
+
 
 @end
