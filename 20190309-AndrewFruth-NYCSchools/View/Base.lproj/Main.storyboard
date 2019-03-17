@@ -184,10 +184,13 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="emailCell" destination="tnM-er-qAL" id="fzB-fw-5kZ"/>
                         <outlet property="overviewCell" destination="Sne-fC-gnP" id="RhX-ZF-Y8g"/>
+                        <outlet property="phoneCell" destination="b8Q-hF-srd" id="TO3-QJ-8HL"/>
                         <outlet property="satMathCell" destination="dTe-ss-o9C" id="JsA-s9-hhR"/>
                         <outlet property="satReadingCell" destination="Jmw-1D-TOC" id="qfx-ds-Tw3"/>
                         <outlet property="satWritingCell" destination="1vT-Yo-uDx" id="7qR-ZO-4wC"/>
+                        <outlet property="websiteCell" destination="kuN-17-KNb" id="7f1-L2-NGY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dz1-xl-3tp" userLabel="First Responder" sceneMemberID="firstResponder"/>

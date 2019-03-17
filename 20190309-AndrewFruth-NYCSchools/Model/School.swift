@@ -11,7 +11,10 @@ import Foundation
 @objc final class School: NSObject, Decodable {
     @objc let name: String
     @objc var satScores: SATScores?
-    @objc let overview: String
+    @objc let overview: String?
+    @objc let email: String?
+    @objc let phone: String?
+    @objc let website: String?
     
     let dbn: String
     var noScoreAvailable = false
@@ -20,14 +23,11 @@ import Foundation
         case dbn
         case name = "school_name"
         case overview = "overview_paragraph"
+        case email = "school_email"
+        case phone = "phone_number"
+        case website
     }
-    
-    init(dbn: String, schoolName: String, overview: String) {
-        self.dbn = dbn
-        self.name = schoolName
-        self.overview = overview
-    }
-    
+
     func needsToRetrieveScores() -> Bool {
         return satScores == nil && !noScoreAvailable
     }

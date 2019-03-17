@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *satReadingCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *satMathCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *overviewCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *websiteCell;
 
 typedef NS_ENUM(NSUInteger, SATTest) {
     SATTestWriting,
@@ -29,13 +32,18 @@ typedef NS_ENUM(NSUInteger, SATTest) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.overviewCell.textLabel.numberOfLines = 0;
+    self.emailCell.textLabel.numberOfLines = 0;
+    self.phoneCell.textLabel.numberOfLines = 0;
     
     self.title = self.school.name;
     
     self.satWritingCell.textLabel.text = [self generateTextWithTest:SATTestWriting];
     self.satReadingCell.textLabel.text = [self generateTextWithTest:SATTestReading];
     self.satMathCell.textLabel.text = [self generateTextWithTest:SATTestMath];
-    self.overviewCell.textLabel.text = self.school.overview;
+    self.overviewCell.textLabel.text = self.school.overview ? self.school.overview : @"No Overview Available";
+    self.emailCell.textLabel.text = self.school.email ? self.school.email: @"No Email Available";
+    self.phoneCell.textLabel.text = self.school.phone ? self.school.phone : @"No Phone Available";
+    self.websiteCell.textLabel.text = self.school.website ? self.school.website : @"No Website Available";
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {
