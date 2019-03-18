@@ -19,7 +19,7 @@
                 <view alpha="0.5" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOq-3K-qlz">
                     <rect key="frame" x="0.0" y="0.0" width="157" height="127"/>
                     <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rzW-G9-6Xs">
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rzW-G9-6Xs">
                             <rect key="frame" x="60" y="45" width="37" height="37"/>
                         </activityIndicatorView>
                     </subviews>
