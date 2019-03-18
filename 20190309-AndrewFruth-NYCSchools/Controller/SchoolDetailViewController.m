@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     self.emailCell.textLabel.text = self.school.email ? self.school.email: @"No Email Available";
     self.phoneCell.textLabel.text = self.school.phone ? self.school.phone : @"No Phone Available";
     self.websiteCell.textLabel.text = self.school.website ? self.school.website : @"No Website Available";
+    
+    self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {

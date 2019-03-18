@@ -42,6 +42,16 @@ struct Networking {
         task.resume()
     }
     
+    static func retrieveSchools(containing nameWords: [String], completionHandler: @escaping ([School]?) -> ()) {
+        let endpoint = Networking.generateSchoolsByNameSearchEndpoint(with: nameWords)
+        guard let schoolURLWithSearchParams = URL(string: endpoint) else {
+            completionHandler(nil)
+            return
+        }
+        
+        Networking.makeSchoolDataNetworkCall(with: schoolURLWithSearchParams, completionHandler: completionHandler)
+    }
+    
     // MARK: - Helper Networking Methods
     private static func generateSchoolEndpointWithParams(schoolPartitionIndex: Int) -> String {
         let orderParam = "$order=school_name"
@@ -49,6 +59,25 @@ struct Networking {
         let offset = "$offset=\(schoolPartitionIndex * schoolResultsPerCall)"
         
         return "\(Networking.schoolEndpoint)?\(orderParam)&\(limitParam)&\(offset)"
+    }
+    
+    private static func generateSchoolsByNameSearchEndpoint(with searchStrings: [String]) -> String {
+        let limitParam = "$limit=\(Networking.schoolResultsPerCall)"
+        let offset = "$offset=0"
+        var whereParams = "$where="
+        for (i, searchTerm) in searchStrings.enumerated() {
+            whereParams.append("school_name like '%\(searchTerm)%'")
+            if i < searchStrings.count - 1 {
+                whereParams.append(" AND ")
+            }
+        }
+        
+        let query = "\(whereParams)&$order=school_name&\(limitParam)&\(offset)"
+        if let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            return "\(Networking.schoolEndpoint)?\(encodedQuery)"
+        }
+        
+        return ""
     }
     
     private static func makeSchoolDataNetworkCall(with schoolURLWithParams: URL, completionHandler: @escaping ([School]?) -> ()) {

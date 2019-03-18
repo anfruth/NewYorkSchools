@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */; };
+		7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05C223E34D200F4B3EA /* SearchOperation.swift */; };
+		7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7736B05E223EC88100F4B3EA /* MainSpinner.xib */; };
+		7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B060223EC99A00F4B3EA /* MainSpinner.swift */; };
 		77888E12223468B100308D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E11223468B100308D29 /* AppDelegate.swift */; };
 		77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* SchoolsListViewController.swift */; };
 		77888E17223468B100308D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E15223468B100308D29 /* Main.storyboard */; };
@@ -30,6 +34,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
+		7736B05C223E34D200F4B3EA /* SearchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperation.swift; sourceTree = "<group>"; };
+		7736B05E223EC88100F4B3EA /* MainSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSpinner.xib; sourceTree = "<group>"; };
+		7736B060223EC99A00F4B3EA /* MainSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSpinner.swift; sourceTree = "<group>"; };
 		77888E0E223468B100308D29 /* 20190309-AndrewFruth-NYCSchools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E11223468B100308D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		77888E13223468B100308D29 /* SchoolsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolsListViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +79,7 @@
 			children = (
 				77888E332234770600308D29 /* School.swift */,
 				77888E35223478C300308D29 /* SATScores.swift */,
+				7736B05C223E34D200F4B3EA /* SearchOperation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -82,6 +91,7 @@
 				77888E382234CED000308D29 /* SchoolDetailViewController.h */,
 				77888E392234CED000308D29 /* SchoolDetailViewController.m */,
 				77888E312234734F00308D29 /* Networking.swift */,
+				7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -91,6 +101,8 @@
 			children = (
 				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
 				77888E15223468B100308D29 /* Main.storyboard */,
+				7736B05E223EC88100F4B3EA /* MainSpinner.xib */,
+				7736B060223EC99A00F4B3EA /* MainSpinner.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,6 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */,
 				77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */,
 				77888E19223468B300308D29 /* Assets.xcassets in Resources */,
 				77888E17223468B100308D29 /* Main.storyboard in Resources */,
@@ -242,8 +255,11 @@
 				77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */,
 				77888E12223468B100308D29 /* AppDelegate.swift in Sources */,
 				77888E36223478C300308D29 /* SATScores.swift in Sources */,
+				7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */,
 				77888E342234770600308D29 /* School.swift in Sources */,
+				7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */,
 				77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */,
+				7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
