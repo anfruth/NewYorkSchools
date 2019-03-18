@@ -47,10 +47,8 @@ final class SchoolsListViewController: UIViewController {
         
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
-        searchController?.delegate = self
+
         searchController?.dimsBackgroundDuringPresentation = false // The default is true.
-        searchController?.searchBar.delegate = self // Monitor when the search button is tapped.
         
         definesPresentationContext = true
         searchOperationQueue.maxConcurrentOperationCount = 1
@@ -116,6 +114,18 @@ final class SchoolsListViewController: UIViewController {
         Networking.retrieveAssociatedSATScores(from: schoolsToQuery) { [weak self] (satScoresList, error) in
             if let vc = self {
                 vc.handleProcessingSATScores(for: schoolsToQuery, satScoresList: satScoresList, error: error, completionHandler: completionHandler)
+            } else {
+                completionHandler(error)
+            }
+        }
+    }
+    
+    private func addSATDataToSchool(with school: School, completionHandler: @escaping (Error?) -> ()) {
+        let schools: ArraySlice<School> = [school]
+        
+        Networking.retrieveAssociatedSATScores(from: schools) { [weak self] (satScoresList, error) in
+            if let vc = self {
+                vc.handleProcessingSATScores(for: schools, satScoresList: satScoresList, error: error, completionHandler: completionHandler)
             } else {
                 completionHandler(error)
             }
@@ -223,12 +233,14 @@ extension SchoolsListViewController: UITableViewDataSource {
 extension SchoolsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        searchController?.searchBar.resignFirstResponder()
+        
         var schoolClicked: School?
         if tableView === schoolsListTableView {
             schoolClicked = schools[indexPath.row]
         } else if let resultsTableController = resultsTableController {
-            let schoolClicked = resultsTableController.filteredSchools[indexPath.row]
-            let associatedIndex: Int? = schools.firstIndex(of: schoolClicked)
+            schoolClicked = resultsTableController.filteredSchools[indexPath.row]
         }
         
         guard let schoolClickedUnwrapped = schoolClicked else {
@@ -236,7 +248,22 @@ extension SchoolsListViewController: UITableViewDelegate {
         }
         
         if schoolClickedUnwrapped.needsToRetrieveScores() {
-            handleRetrievingSATScores(with: schoolClickedUnwrapped, indexPath: indexPath)
+            if tableView === schoolsListTableView {
+                handleRetrievingSATScores(with: schoolClickedUnwrapped, indexPath: indexPath)
+            } else if let resultsTableController = resultsTableController {
+                
+                guard let spinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner else {
+                    return
+                }
+                
+                spinner.start(viewAddingSpinner: resultsTableController.view)
+                addSATDataToSchool(with: schoolClickedUnwrapped) { [weak self] error in
+                    spinner.stop()
+                    spinner.removeFromSuperview()
+                    self?.performDetailVCSegue(with: schoolClickedUnwrapped)
+                }
+            }
+            
         } else {
             performDetailVCSegue(with: schoolClickedUnwrapped)
         }
@@ -282,13 +309,4 @@ extension SchoolsListViewController: UISearchResultsUpdating {
         
     }
 
-}
-
-
-extension SchoolsListViewController: UISearchControllerDelegate {
-
-}
-
-extension SchoolsListViewController: UISearchBarDelegate {
-    
 }

@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     self.overviewCell.textLabel.numberOfLines = 0;
     self.emailCell.textLabel.numberOfLines = 0;
     self.phoneCell.textLabel.numberOfLines = 0;
+    self.websiteCell.textLabel.numberOfLines = 0;
     
     self.title = self.school.name;
     
