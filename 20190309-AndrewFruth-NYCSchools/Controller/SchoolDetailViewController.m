@@ -9,6 +9,8 @@
 #import "SchoolDetailViewController.h"
 #import "_0190309_AndrewFruth_NYCSchools-Swift.h"
 
+static const int SCHOOL_DETAIL_SECTION_HEADER_HEIGHT = 50;
+
 @interface SchoolDetailViewController() <UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *satWritingCell;
@@ -31,13 +33,21 @@ typedef NS_ENUM(NSUInteger, SATTest) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self createSelfSizingLabels];
+    
+    self.title = self.school.name;
+    [self setLabelsText];
+    self.tableView.tableFooterView = [[UIView alloc] init];
+}
+
+- (void)createSelfSizingLabels {
     self.overviewCell.textLabel.numberOfLines = 0;
     self.emailCell.textLabel.numberOfLines = 0;
     self.phoneCell.textLabel.numberOfLines = 0;
     self.websiteCell.textLabel.numberOfLines = 0;
-    
-    self.title = self.school.name;
-    
+}
+
+- (void)setLabelsText {
     self.satWritingCell.textLabel.text = [self generateTextWithTest:SATTestWriting];
     self.satReadingCell.textLabel.text = [self generateTextWithTest:SATTestReading];
     self.satMathCell.textLabel.text = [self generateTextWithTest:SATTestMath];
@@ -45,36 +55,36 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     self.emailCell.textLabel.text = self.school.email ? self.school.email: @"No Email Available";
     self.phoneCell.textLabel.text = self.school.phone ? self.school.phone : @"No Phone Available";
     self.websiteCell.textLabel.text = self.school.website ? self.school.website : @"No Website Available";
-    
-    self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {
     NSString *noneAvailable = @"None Available";
-
-    if (test == SATTestWriting) {
-        NSString *writingScore = self.school.satScores.writing.stringValue;
-        NSString *writingScoreText = writingScore ? writingScore : noneAvailable;
-        return [NSString stringWithFormat: @"Writing: %@",  writingScoreText];
-
-    } else if (test == SATTestReading) {
-        NSString *readingScore = self.school.satScores.reading.stringValue;
-        NSString *readingScoreText = readingScore ? readingScore : noneAvailable;
-        return [NSString stringWithFormat: @"Reading: %@",  readingScoreText];
-
-    } else if (test == SATTestMath) {
-        NSString *mathScore = self.school.satScores.math.stringValue;
-        NSString *mathScoreText = mathScore ? mathScore : noneAvailable;
-        return [NSString stringWithFormat: @"Math: %@",  mathScoreText];
-
+    SATScores *satScores = self.school.satScores;
+    
+    switch (test) {
+            
+        case SATTestWriting:
+        {
+            NSString *writingScoreText = satScores.writing.stringValue ? satScores.writing.stringValue : noneAvailable;
+            return [NSString stringWithFormat: @"Writing: %@",  writingScoreText];
+        }
+        case SATTestReading:
+        {
+            NSString *readingScoreText = satScores.reading.stringValue ? satScores.reading.stringValue : noneAvailable;
+            return [NSString stringWithFormat: @"Reading: %@",  readingScoreText];
+        }
+        case SATTestMath:
+        {
+            NSString *mathScoreText = satScores.math.stringValue ? satScores.math.stringValue : noneAvailable;
+            return [NSString stringWithFormat: @"Math: %@",  mathScoreText];
+        }
     }
 
     return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50;
+    return SCHOOL_DETAIL_SECTION_HEADER_HEIGHT;
 }
-
 
 @end
