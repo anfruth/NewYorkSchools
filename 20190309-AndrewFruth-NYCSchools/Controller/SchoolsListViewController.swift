@@ -13,10 +13,10 @@ final class SchoolsListViewController: UIViewController {
     @IBOutlet private weak var schoolsListTableView: UITableView!
     @IBOutlet private weak var noResultsLabel: UILabel!
     
-    var resultsTableController: SearchResultsTableViewController?
-    
     private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
     private lazy var mainSpinner: MainSpinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)![0] as! MainSpinner
+    
+    private var resultsTableController: SearchResultsTableViewController?
     
     private var schools: [School] = []
     private var schoolClicked: School?
