@@ -75,8 +75,6 @@ final class SchoolsListViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        searchController?.dimsBackgroundDuringPresentation = false
-        
         definesPresentationContext = true
         searchOperationQueue.maxConcurrentOperationCount = 1
     }
