@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -12,36 +12,23 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MainSpinner" customModule="_0190309_AndrewFruth_NYCSchools" customModuleProvider="target">
+        <view opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" id="iN0-l3-epB" customClass="MainSpinner" customModule="_0190309_AndrewFruth_NYCSchools" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="157" height="127"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view alpha="0.5" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOq-3K-qlz">
-                    <rect key="frame" x="0.0" y="0.0" width="157" height="127"/>
-                    <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rzW-G9-6Xs">
-                            <rect key="frame" x="60" y="45" width="37" height="37"/>
-                        </activityIndicatorView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="rzW-G9-6Xs" firstAttribute="centerX" secondItem="eOq-3K-qlz" secondAttribute="centerX" id="IYI-aF-g4K"/>
-                        <constraint firstItem="rzW-G9-6Xs" firstAttribute="centerY" secondItem="eOq-3K-qlz" secondAttribute="centerY" id="RE6-zV-Gtv"/>
-                    </constraints>
-                </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rzW-G9-6Xs">
+                    <rect key="frame" x="60" y="45" width="37" height="37"/>
+                </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="eOq-3K-qlz" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="2zW-iP-fsK"/>
-                <constraint firstItem="eOq-3K-qlz" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Vku-sY-kp6"/>
-                <constraint firstItem="eOq-3K-qlz" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="alr-Fm-Zku"/>
-                <constraint firstItem="eOq-3K-qlz" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ghh-5z-CnJ"/>
+                <constraint firstItem="rzW-G9-6Xs" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="TKY-J3-j0b"/>
+                <constraint firstItem="rzW-G9-6Xs" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="i3p-E4-ePv"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="transitionVCSpinner" destination="rzW-G9-6Xs" id="oBk-jy-xII"/>
-                <outlet property="transitionVCSpinnerSuperview" destination="eOq-3K-qlz" id="RIq-Ov-A8B"/>
             </connections>
             <point key="canvasLocation" x="-212" y="-213.64317841079463"/>
         </view>

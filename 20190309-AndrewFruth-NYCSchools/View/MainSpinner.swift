@@ -11,10 +11,10 @@ import UIKit
 class MainSpinner: UIView {
 
     @IBOutlet weak var transitionVCSpinner: UIActivityIndicatorView!
-    @IBOutlet weak var transitionVCSpinnerSuperview: UIView!
-    
+
     func start(viewAddingSpinner: UIView) {
         viewAddingSpinner.addSubview(self)
+        layer.cornerRadius = 5
         setupConstraints()
         transitionVCSpinner.startAnimating()
     }
