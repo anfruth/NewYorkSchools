@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77197E572240BF9500508D20 /* SearchOperationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77197E562240BF9500508D20 /* SearchOperationDelegate.swift */; };
 		7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */; };
 		7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05C223E34D200F4B3EA /* SearchOperation.swift */; };
 		7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7736B05E223EC88100F4B3EA /* MainSpinner.xib */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		77197E562240BF9500508D20 /* SearchOperationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperationDelegate.swift; sourceTree = "<group>"; };
 		7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		7736B05C223E34D200F4B3EA /* SearchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperation.swift; sourceTree = "<group>"; };
 		7736B05E223EC88100F4B3EA /* MainSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSpinner.xib; sourceTree = "<group>"; };
@@ -74,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77197E552240BF7000508D20 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				77197E562240BF9500508D20 /* SearchOperationDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		773CA10B2235F1700082742D /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +142,7 @@
 				773CA10E2235F1C10082742D /* View */,
 				773CA10C2235F1930082742D /* Controller */,
 				773CA10B2235F1700082742D /* Model */,
+				77197E552240BF7000508D20 /* Protocol */,
 				77888E18223468B300308D29 /* Assets.xcassets */,
 				77888E1D223468B300308D29 /* Info.plist */,
 				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
@@ -253,6 +264,7 @@
 			files = (
 				77888E322234734F00308D29 /* Networking.swift in Sources */,
 				77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */,
+				77197E572240BF9500508D20 /* SearchOperationDelegate.swift in Sources */,
 				77888E12223468B100308D29 /* AppDelegate.swift in Sources */,
 				77888E36223478C300308D29 /* SATScores.swift in Sources */,
 				7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */,

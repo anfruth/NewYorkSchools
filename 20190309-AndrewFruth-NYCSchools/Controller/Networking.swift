@@ -18,8 +18,8 @@ struct Networking {
     // MARK: - Core Networking Methods
     static func retrieveSchoolData(with schoolPartitionIndex: Int, completionHandler: @escaping ([School]?) -> ()) {
         
-        let schoolEndpointWithParams = Networking.generateSchoolEndpointWithParams(schoolPartitionIndex: schoolPartitionIndex)
-        guard let schoolURLWithParams = URL(string: schoolEndpointWithParams) else {
+        let endpoint = Networking.generateSchoolEndpointWithParams(schoolPartitionIndex: schoolPartitionIndex)
+        guard let schoolURLWithParams = URL(string: endpoint) else {
             completionHandler(nil)
             return
         }
@@ -53,6 +53,7 @@ struct Networking {
     }
     
     // MARK: - Helper Networking Methods
+    
     private static func generateSchoolEndpointWithParams(schoolPartitionIndex: Int) -> String {
         let orderParam = "$order=school_name"
         let limitParam = "$limit=\(Networking.schoolResultsPerCall)"

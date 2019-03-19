@@ -10,9 +10,12 @@ import Foundation
 
 final class SearchOperation: Operation {
     
-    private weak var schoolsListVC: SchoolsListViewController?
+    typealias SchoolCompletionHandler = (([School]?) -> ())?
+    
+    private weak var searchOperationDelegte: SearchOperationDelegate?
     private let searchTerms: [String]
-    private let completionHandler: (() -> ())?
+    private let completionHandler: (([School]?) -> ())?
+    private let secondsDelayFromTypingSearch = 0.5
     
     private var _isExecuting: Bool {
         willSet {
@@ -39,11 +42,11 @@ final class SearchOperation: Operation {
         return _isFinished
     }
     
-    init(schoolsListVC: SchoolsListViewController, searchTerms: [String], completionHandler: (() -> ())?) {
+    init(searchOperationDelegate: SearchOperationDelegate, searchTerms: [String], completionHandler: SchoolCompletionHandler) {
         _isExecuting = false
         _isFinished = false
         
-        self.schoolsListVC = schoolsListVC
+        self.searchOperationDelegte = searchOperationDelegate
         self.searchTerms = searchTerms
         self.completionHandler = completionHandler
         
@@ -51,50 +54,40 @@ final class SearchOperation: Operation {
     }
     
     override func start() {
+        if isCancelledAndFinish() { return }
         
-        if isCancelled {
-           finishOp()
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-   
+        DispatchQueue.main.asyncAfter(deadline: .now() + secondsDelayFromTypingSearch) {
             if !self.isCancelled {
-                print(self.searchTerms)
-                
-                guard let spinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner else {
-                    return
-                }
-                spinner.start(viewAddingSpinner: self.schoolsListVC!.resultsTableController!.view)
-                
-                Networking.retrieveSchools(containing: self.searchTerms) { schools in
-                    DispatchQueue.main.async {
-                        spinner.stop()
-                    }
-                    
-                    if self.isCancelled {
-                        self.finishOp()
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if let schools = schools {
-                            self.schoolsListVC?.resultsTableController?.filteredSchools = schools
-                            self.schoolsListVC?.resultsTableController?.tableView.reloadData()
-                        }
-                        self.finishOp()
-                    }
-                }
+                self.runOperationAfterDelay()
             } else {
-                self.finishOp()
+                self.finishOp(schools: nil)
             }
         }
         
     }
     
-    private func finishOp() {
+    private func runOperationAfterDelay() {
+        searchOperationDelegte?.willMakeSearchNetworkCall()
+        Networking.retrieveSchools(containing: searchTerms) { schools in
+            
+            self.searchOperationDelegte?.didFinishSearchNetworkCall()
+            if self.isCancelledAndFinish() { return }
+            self.finishOp(schools: schools)
+        }
+    }
+    
+    private func isCancelledAndFinish() -> Bool {
+        if isCancelled {
+            finishOp(schools: nil)
+            return true
+        }
+        return false
+    }
+    
+    private func finishOp(schools: [School]?) {
         self._isExecuting = false
         self._isFinished = true
-        self.completionHandler?()
+        self.completionHandler?(schools)
     }
     
 }

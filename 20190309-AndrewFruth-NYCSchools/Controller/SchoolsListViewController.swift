@@ -321,6 +321,7 @@ extension SchoolsListViewController: UITableViewDelegate {
     
 }
 
+// MARK: - UISearchResultsUpdating
 extension SchoolsListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -346,11 +347,42 @@ extension SchoolsListViewController: UISearchResultsUpdating {
     }
     
     private func enqueueSearchOperation(searchWords: [Substring]) {
+        
         let fullSearchStrings: [String] = searchWords.map { String($0) }
         resultsTableController?.allSearchStrings = searchWords.map { String($0) }
-        let operation: SearchOperation = SearchOperation(schoolsListVC: self, searchTerms: fullSearchStrings, completionHandler: nil)
+        let operation: SearchOperation = SearchOperation(searchOperationDelegate: self, searchTerms: fullSearchStrings) { [weak self] schools in
+           self?.handleCompletedSearchOperation(schools: schools)
+        }
         
         searchOperationQueue.addOperation(operation)
     }
+    
+    private func handleCompletedSearchOperation(schools: [School]?) {
+        
+        DispatchQueue.main.async { [weak self] in
+            if let resultsTableController = self?.resultsTableController, let schools = schools {
+                resultsTableController.filteredSchools = schools
+                resultsTableController.tableView.reloadData()
+            }
+        }
+    }
 
+}
+
+// MARK: - SearchOperationDelegate
+extension SchoolsListViewController: SearchOperationDelegate {
+    
+    func willMakeSearchNetworkCall() {
+        DispatchQueue.main.async { [weak self] in
+            guard let resultsVCView = self?.resultsTableController?.view else { return }
+            self?.mainSpinner.start(viewAddingSpinner: resultsVCView)
+        }
+    }
+    
+    func didFinishSearchNetworkCall() {
+        DispatchQueue.main.async { [weak self] in
+            self?.mainSpinner.stop()
+        }
+    }
+    
 }
