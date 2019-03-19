@@ -16,7 +16,7 @@ final class SearchResultsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "schoolCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "filteredSchoolCell")
     }
 
     // MARK: - Table view data source
@@ -29,27 +29,27 @@ final class SearchResultsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: "schoolCell") {
-            
-            let schoolNameText = filteredSchools[indexPath.row].name
-            let attributedSchoolName = NSMutableAttributedString(string: schoolNameText, attributes: nil)
-            var rangesToBold: [NSRange] = []
-            
-            for searchString in allSearchStrings {
-                rangesToBold.append(contentsOf: (schoolNameText as NSString).getRanges(of: searchString))
-            }
-            
-            for range in rangesToBold {
-                attributedSchoolName.setAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], range: range)
-            }
-            
-            
-            schoolCell.textLabel?.attributedText = attributedSchoolName
+        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: "filteredSchoolCell") {
+            let schoolName = filteredSchools[indexPath.row].name
+            boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             schoolCell.textLabel?.numberOfLines = 0
             return schoolCell
         }
         
         return UITableViewCell()
+    }
+    
+    private func boldSearchTerms(schoolName: String, schoolCell: UITableViewCell) {
+        let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: nil)
+        
+        for searchString in allSearchStrings {
+            let rangesToBold = (schoolName as NSString).getRanges(of: searchString)
+            for range in rangesToBold {
+                attributedSchoolName.setAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], range: range)
+            }
+        }
+        
+        schoolCell.textLabel?.attributedText = attributedSchoolName
     }
 }
 
