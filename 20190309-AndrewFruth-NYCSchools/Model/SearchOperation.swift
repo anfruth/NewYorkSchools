@@ -8,11 +8,11 @@
 
 import Foundation
 
-class SearchOperation: Operation {
+final class SearchOperation: Operation {
     
-    weak var schoolsListVC: SchoolsListViewController?
-    let searchTerms: [String]
-    let completionHandler: (() -> ())?
+    private weak var schoolsListVC: SchoolsListViewController?
+    private let searchTerms: [String]
+    private let completionHandler: (() -> ())?
     
     private var _isExecuting: Bool {
         willSet {
@@ -53,9 +53,7 @@ class SearchOperation: Operation {
     override func start() {
         
         if isCancelled {
-            _isExecuting = false
-            _isFinished = true
-            print("finish 1")
+           finishOp()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -74,9 +72,7 @@ class SearchOperation: Operation {
                     }
                     
                     if self.isCancelled {
-                        self._isExecuting = false
-                        self._isFinished = true
-                        self.completionHandler?()
+                        self.finishOp()
                         return
                     }
                     
@@ -85,21 +81,20 @@ class SearchOperation: Operation {
                             self.schoolsListVC?.resultsTableController?.filteredSchools = schools
                             self.schoolsListVC?.resultsTableController?.tableView.reloadData()
                         }
-                        
-                        self._isExecuting = false
-                        self._isFinished = true
-                        self.completionHandler?()
-                        print("finish 2")
+                        self.finishOp()
                     }
                 }
             } else {
-                self._isExecuting = false
-                self._isFinished = true
-                self.completionHandler?()
-                print("finish 3")
+                self.finishOp()
             }
         }
         
+    }
+    
+    private func finishOp() {
+        self._isExecuting = false
+        self._isFinished = true
+        self.completionHandler?()
     }
     
 }

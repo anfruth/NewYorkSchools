@@ -10,22 +10,27 @@ import UIKit
 
 final class SchoolsListViewController: UIViewController {
 
-    @IBOutlet weak var schoolsListTableView: UITableView!
+    @IBOutlet private weak var schoolsListTableView: UITableView!
+    @IBOutlet private weak var noResultsLabel: UILabel!
     
-    var schools: [School] = []
-    var schoolClicked: School?
-    lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
+    var resultsTableController: SearchResultsTableViewController?
     
-    var populateTableWithSchoolDataUnderway = false
-    var retrievedAllSchools = false
+    private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
+    private lazy var mainSpinner: MainSpinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)![0] as! MainSpinner
     
-    let schoolDetailSegueID = "showSchoolDetail"
-    let schoolCellID = "schoolCell"
+    private var schools: [School] = []
+    private var schoolClicked: School?
+    
+    private var populateTableWithSchoolDataUnderway = false
+    private var retrievedAllSchools = false
+    
+    private let schoolDetailSegueID = "showSchoolDetail"
+    private let schoolCellID = "schoolCell"
     
     private var searchController: UISearchController?
-    var resultsTableController: SearchResultsTableViewController?
     private var waitedIntervalAfterSearch = false
     private let searchOperationQueue = OperationQueue()
+    
     
     // MARK: - Overriden Methods
     override func viewDidLoad() {
@@ -36,22 +41,11 @@ final class SchoolsListViewController: UIViewController {
         footerSpinner.hidesWhenStopped = true
         schoolsListTableView.tableFooterView = footerSpinner
         
-        populateTableWithSchoolData()
+        populateTableWithSchoolData() { [weak self] in
+            self?.handlePopulatingSchoolDataComplete()
+        }
         
-        resultsTableController = SearchResultsTableViewController()
-        resultsTableController?.tableView.delegate = self
-        
-        searchController = UISearchController(searchResultsController: resultsTableController)
-        searchController?.searchResultsUpdater = self
-        searchController?.searchBar.autocapitalizationType = .none
-        
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-
-        searchController?.dimsBackgroundDuringPresentation = false // The default is true.
-        
-        definesPresentationContext = true
-        searchOperationQueue.maxConcurrentOperationCount = 1
+        setupSearchController()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,11 +56,42 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    @IBAction func refreshAllResults(_ sender: UIBarButtonItem) {
+        schools = []
+        retrievedAllSchools = false
+        populateTableWithSchoolData() { [weak self] in
+            self?.handlePopulatingSchoolDataComplete()
+        }
+    }
+    
+    private func setupSearchController() {
+        resultsTableController = SearchResultsTableViewController()
+        resultsTableController?.tableView.delegate = self
+        
+        searchController = UISearchController(searchResultsController: resultsTableController)
+        searchController?.searchResultsUpdater = self
+        searchController?.searchBar.autocapitalizationType = .none
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        
+        searchController?.dimsBackgroundDuringPresentation = false
+        
+        definesPresentationContext = true
+        searchOperationQueue.maxConcurrentOperationCount = 1
+    }
+    
+    
     // MARK: - Retrieve And Handle School Data Methods
     private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
+        if schoolIndex == 0 { mainSpinner.start(viewAddingSpinner: view) }
         
         populateTableWithSchoolDataUnderway = true
         Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
+            if schoolIndex == 0 {
+                DispatchQueue.main.async { self?.mainSpinner.stop() }
+            }
+            
             if let vc = self {
                 vc.handleProcessingSchoolData(with: schools, completionHandler: completionHandler)
             } else {
@@ -75,11 +100,24 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    private func handlePopulatingSchoolDataComplete() {
+        if  schools.isEmpty {
+            noResultsLabel.isHidden = false
+            schoolsListTableView.isHidden = true
+        } else {
+            let firstIndexPath = IndexPath(row: 0, section: 0)
+            schoolsListTableView.scrollToRow(at: firstIndexPath, at: UITableView.ScrollPosition.none, animated: true)
+            noResultsLabel.isHidden = true
+            schoolsListTableView.isHidden = false
+        }
+    }
+    
     private func handleProcessingSchoolData(with schools: [School]?, completionHandler: (() -> ())?) {
         DispatchQueue.main.async { [weak self] in
             if let schools = schools {
                 if schools.count == 0 || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
                 self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
+                completionHandler?()
             }
             
             self?.populateTableWithSchoolDataUnderway = false
@@ -96,14 +134,10 @@ final class SchoolsListViewController: UIViewController {
     
     private func handleRetrievingSATScores(with schoolClicked: School, indexPath: IndexPath) {
         let schoolParitionIndex = getSchoolPartitionIndex(from: indexPath.row)
-        guard let spinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner else {
-            return
-        }
         
-        spinner.start(viewAddingSpinner: view)
+        mainSpinner.start(viewAddingSpinner: view)
         addSATDataToSchools(with: schoolParitionIndex) { [weak self] error in
-            spinner.stop()
-            spinner.removeFromSuperview()
+            self?.mainSpinner.stop()
             self?.performDetailVCSegue(with: schoolClicked)
         }
     }
@@ -233,41 +267,9 @@ extension SchoolsListViewController: UITableViewDataSource {
 extension SchoolsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         searchController?.searchBar.resignFirstResponder()
-        
-        var schoolClicked: School?
-        if tableView === schoolsListTableView {
-            schoolClicked = schools[indexPath.row]
-        } else if let resultsTableController = resultsTableController {
-            schoolClicked = resultsTableController.filteredSchools[indexPath.row]
-        }
-        
-        guard let schoolClickedUnwrapped = schoolClicked else {
-            return
-        }
-        
-        if schoolClickedUnwrapped.needsToRetrieveScores() {
-            if tableView === schoolsListTableView {
-                handleRetrievingSATScores(with: schoolClickedUnwrapped, indexPath: indexPath)
-            } else if let resultsTableController = resultsTableController {
-                
-                guard let spinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner else {
-                    return
-                }
-                
-                spinner.start(viewAddingSpinner: resultsTableController.view)
-                addSATDataToSchool(with: schoolClickedUnwrapped) { [weak self] error in
-                    spinner.stop()
-                    spinner.removeFromSuperview()
-                    self?.performDetailVCSegue(with: schoolClickedUnwrapped)
-                }
-            }
-            
-        } else {
-            performDetailVCSegue(with: schoolClickedUnwrapped)
-        }
-        
+        guard let schoolClicked = getSchoolClicked(tableView: tableView, indexPath: indexPath) else { return }
+        viewSchoolDetails(with: schoolClicked, tableView: tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -282,6 +284,41 @@ extension SchoolsListViewController: UITableViewDelegate {
             }
         }
     }
+    
+    private func getSchoolClicked(tableView: UITableView, indexPath: IndexPath) -> School? {
+        var schoolClicked: School?
+        
+        if tableView === schoolsListTableView {
+            schoolClicked = schools[indexPath.row]
+        } else if let resultsTableController = resultsTableController {
+            schoolClicked = resultsTableController.filteredSchools[indexPath.row]
+        }
+        
+        return schoolClicked
+    }
+    
+    private func viewSchoolDetails(with schoolClicked: School, tableView: UITableView, indexPath: IndexPath) {
+        if schoolClicked.needsToRetrieveScores() {
+            retreiveScoresBased(on: tableView, schoolClicked: schoolClicked, indexPath: indexPath)
+        } else {
+            performDetailVCSegue(with: schoolClicked)
+        }
+    }
+    
+    private func retreiveScoresBased(on tableView: UITableView, schoolClicked: School, indexPath: IndexPath) {
+        
+        if tableView === schoolsListTableView {
+            handleRetrievingSATScores(with: schoolClicked, indexPath: indexPath)
+            
+        } else if let resultsTableController = resultsTableController {
+            mainSpinner.start(viewAddingSpinner: resultsTableController.view)
+            addSATDataToSchool(with: schoolClicked) { [weak self] error in
+                self?.mainSpinner.stop()
+                self?.performDetailVCSegue(with: schoolClicked)
+            }
+        }
+    }
+    
 }
 
 extension SchoolsListViewController: UISearchResultsUpdating {
@@ -289,24 +326,31 @@ extension SchoolsListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         
         searchOperationQueue.cancelAllOperations()
-        
+        guard let searchWords = getSearchWordsFromSearchBar(searchController: searchController) else {
+            resultsTableController?.filteredSchools.removeAll()
+            resultsTableController?.tableView.reloadData()
+            return
+        }
+
+        enqueueSearchOperation(searchWords: searchWords)
+    }
+    
+    private func getSearchWordsFromSearchBar(searchController: UISearchController) -> [Substring]? {
         let whitespaceCharacterSet = CharacterSet.whitespaces
         if let strippedString = searchController.searchBar.text?.trimmingCharacters(in: whitespaceCharacterSet) {
             let capString = strippedString.capitalized
-            let allSearchStrings = capString.split(separator: " ")
-            if !strippedString.isEmpty {
-                
-                let fullSearchStrings: [String] = allSearchStrings.map { String($0) }
-                resultsTableController?.allSearchStrings = allSearchStrings.map { String($0) }
-                let operation: SearchOperation = SearchOperation(schoolsListVC: self, searchTerms: fullSearchStrings, completionHandler: nil)
-                
-                searchOperationQueue.addOperation(operation)
-            } else {
-                resultsTableController?.filteredSchools = []
-                resultsTableController?.tableView.reloadData()
-            }
+            return capString.split(separator: " ")
         }
         
+        return nil
+    }
+    
+    private func enqueueSearchOperation(searchWords: [Substring]) {
+        let fullSearchStrings: [String] = searchWords.map { String($0) }
+        resultsTableController?.allSearchStrings = searchWords.map { String($0) }
+        let operation: SearchOperation = SearchOperation(schoolsListVC: self, searchTerms: fullSearchStrings, completionHandler: nil)
+        
+        searchOperationQueue.addOperation(operation)
     }
 
 }

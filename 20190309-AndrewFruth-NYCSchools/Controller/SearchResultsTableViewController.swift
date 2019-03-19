@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchResultsTableViewController: UITableViewController {
+final class SearchResultsTableViewController: UITableViewController {
     
     
     var filteredSchools: [School] = []

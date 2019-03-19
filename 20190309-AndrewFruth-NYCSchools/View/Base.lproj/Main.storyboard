@@ -34,6 +34,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMk-GU-nHt" userLabel="BackgroundView">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpk-mA-4Wy">
+                                        <rect key="frame" x="129.5" y="286.5" width="116.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="fpk-mA-4Wy" firstAttribute="centerY" secondItem="DMk-GU-nHt" secondAttribute="centerY" id="Q4n-qd-95q"/>
+                                    <constraint firstItem="fpk-mA-4Wy" firstAttribute="centerX" secondItem="DMk-GU-nHt" secondAttribute="centerX" id="QAE-n9-8oE"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YTL-tj-5If">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -63,12 +79,23 @@
                             <constraint firstItem="YTL-tj-5If" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BFr-Iu-alq"/>
                             <constraint firstItem="YTL-tj-5If" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Rnq-E6-STr"/>
                             <constraint firstItem="YTL-tj-5If" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aaG-VB-eXg"/>
+                            <constraint firstItem="DMk-GU-nHt" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="c3Y-Dd-8vJ"/>
+                            <constraint firstItem="DMk-GU-nHt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cx3-qk-kZn"/>
+                            <constraint firstItem="DMk-GU-nHt" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="d60-M4-fy0"/>
                             <constraint firstItem="YTL-tj-5If" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ipE-Pb-lH4"/>
+                            <constraint firstItem="DMk-GU-nHt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="yn3-Fk-E1B"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="New York Schools" id="DYx-ib-XGv"/>
+                    <navigationItem key="navigationItem" title="New York Schools" id="DYx-ib-XGv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="MSN-pc-7ra">
+                            <connections>
+                                <action selector="refreshAllResults:" destination="BYZ-38-t0r" id="OC7-Wf-YLW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="noResultsLabel" destination="fpk-mA-4Wy" id="Z8P-8q-V8j"/>
                         <outlet property="schoolsListTableView" destination="YTL-tj-5If" id="ojo-Lc-nvu"/>
                         <segue destination="xV5-IK-Un4" kind="show" identifier="showSchoolDetail" id="val-Ez-38e"/>
                     </connections>
