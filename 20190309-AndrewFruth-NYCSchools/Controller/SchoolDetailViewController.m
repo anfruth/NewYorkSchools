@@ -20,6 +20,9 @@ static const int SCHOOL_DETAIL_SECTION_HEADER_HEIGHT = 50;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *phoneCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *websiteCell;
+@property (weak, nonatomic) IBOutlet UIButton *emailButton;
+@property (weak, nonatomic) IBOutlet UIButton *phoneButton;
+@property (weak, nonatomic) IBOutlet UIButton *websiteButton;
 
 typedef NS_ENUM(NSUInteger, SATTest) {
     SATTestWriting,
@@ -39,6 +42,28 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     [self setLabelsText];
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
+- (IBAction)didClickEmailButton:(UIButton *)sender {
+    if (self.school.email) {
+        NSString *emailURLString = [NSString stringWithFormat:@"mailto:%@", self.school.email];
+        NSURL *emailURL = [[NSURL alloc] initWithString:emailURLString];
+        [UIApplication.sharedApplication openURL:emailURL options:@{} completionHandler:nil];
+    }
+}
+
+- (IBAction)didClickPhoneButton:(UIButton *)sender {
+     if (self.school.phone) {
+         NSString *phoneURLString = [NSString stringWithFormat:@"tel://%@", self.school.phone];
+         NSURL *phoneURL = [[NSURL alloc] initWithString:phoneURLString];
+         [UIApplication.sharedApplication openURL:phoneURL options:@{} completionHandler:nil];
+     }
+}
+
+- (IBAction)didClickWebsite:(UIButton *)sender {
+    if (self.school.website) {
+        NSURL *websiteURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@", self.school.website]];
+        [UIApplication.sharedApplication openURL:websiteURL options:@{} completionHandler:nil];
+    }
+}
 
 - (void)createSelfSizingLabels {
     self.overviewCell.textLabel.numberOfLines = 0;
@@ -52,9 +77,39 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     self.satReadingCell.textLabel.text = [self generateTextWithTest:SATTestReading];
     self.satMathCell.textLabel.text = [self generateTextWithTest:SATTestMath];
     self.overviewCell.textLabel.text = self.school.overview ? self.school.overview : @"No Overview Available";
-    self.emailCell.textLabel.text = self.school.email ? self.school.email: @"No Email Available";
-    self.phoneCell.textLabel.text = self.school.phone ? self.school.phone : @"No Phone Available";
-    self.websiteCell.textLabel.text = self.school.website ? self.school.website : @"No Website Available";
+    
+    [self setEmailField];
+    [self setPhoneField];
+    [self setWebsiteField];
+}
+
+// could create a dictionary to map UI elements together to avoid the repetition in the 3 methods below.
+
+- (void)setEmailField {
+    if (self.school.email) {
+        [self.emailButton setTitle:self.school.email forState:UIControlStateNormal];
+    } else {
+        self.emailButton.hidden = YES;
+        self.emailCell.textLabel.text = @"No Email Available";
+    }
+}
+
+- (void)setPhoneField {
+    if (self.school.phone) {
+        [self.phoneButton setTitle:self.school.phone forState:UIControlStateNormal];
+    } else {
+        self.phoneButton.hidden = YES;
+        self.phoneCell.textLabel.text = @"No Phone Available";
+    }
+}
+
+- (void)setWebsiteField {
+    if (self.school.website) {
+        [self.websiteButton setTitle:self.school.website forState:UIControlStateNormal];
+    } else {
+        self.websiteButton.hidden = YES;
+        self.websiteCell.textLabel.text = @"No Email Available";
+    }
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {

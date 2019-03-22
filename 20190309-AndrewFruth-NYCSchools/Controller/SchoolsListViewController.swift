@@ -46,6 +46,7 @@ final class SchoolsListViewController: UIViewController {
         }
         
         setupSearchController()
+        searchOperationQueue.maxConcurrentOperationCount = 1
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -71,12 +72,12 @@ final class SchoolsListViewController: UIViewController {
         searchController = UISearchController(searchResultsController: resultsTableController)
         searchController?.searchResultsUpdater = self
         searchController?.searchBar.autocapitalizationType = .none
+        searchController?.searchBar.returnKeyType = .done
         
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.hidesSearchBarWhenScrolling = true
         
         definesPresentationContext = true
-        searchOperationQueue.maxConcurrentOperationCount = 1
     }
     
     

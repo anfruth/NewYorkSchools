@@ -69,6 +69,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -161,6 +162,22 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tnM-er-qAL" id="3Ts-hE-kWS">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIn-GL-PXs">
+                                                    <rect key="frame" x="20" y="7.0000000000000018" width="37" height="29.666666666666671"/>
+                                                    <state key="normal" title="Email"/>
+                                                    <connections>
+                                                        <action selector="didClickEmailButton:" destination="xV5-IK-Un4" eventType="touchUpInside" id="bua-Q8-Hul"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TIn-GL-PXs" firstAttribute="centerY" secondItem="3Ts-hE-kWS" secondAttribute="centerY" id="Ak3-j4-LZU"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TIn-GL-PXs" secondAttribute="trailing" constant="20" symbolic="YES" id="KrK-um-VUU"/>
+                                                <constraint firstAttribute="bottom" secondItem="TIn-GL-PXs" secondAttribute="bottom" constant="6.9999999999999929" id="Nax-SR-xQ9"/>
+                                                <constraint firstItem="TIn-GL-PXs" firstAttribute="top" secondItem="3Ts-hE-kWS" secondAttribute="top" constant="7" id="isr-WS-ffg"/>
+                                                <constraint firstItem="TIn-GL-PXs" firstAttribute="leading" secondItem="3Ts-hE-kWS" secondAttribute="leading" constant="20" id="juO-Nt-BRF"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="b8Q-hF-srd">
@@ -169,6 +186,22 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b8Q-hF-srd" id="dCk-Nn-dd2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZ7-I8-Ico">
+                                                    <rect key="frame" x="20" y="7.0000000000000018" width="44" height="29.666666666666671"/>
+                                                    <state key="normal" title="Phone"/>
+                                                    <connections>
+                                                        <action selector="didClickPhoneButton:" destination="xV5-IK-Un4" eventType="touchUpInside" id="hcW-wJ-1DD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dZ7-I8-Ico" firstAttribute="leading" secondItem="dCk-Nn-dd2" secondAttribute="leading" constant="20" id="cg3-q6-Yyq"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dZ7-I8-Ico" secondAttribute="trailing" constant="20" symbolic="YES" id="gMT-fy-Uaf"/>
+                                                <constraint firstItem="dZ7-I8-Ico" firstAttribute="top" secondItem="dCk-Nn-dd2" secondAttribute="top" constant="7" id="hfR-Jx-PiM"/>
+                                                <constraint firstAttribute="bottom" secondItem="dZ7-I8-Ico" secondAttribute="bottom" constant="6.9999999999999929" id="jCF-9i-QFr"/>
+                                                <constraint firstItem="dZ7-I8-Ico" firstAttribute="centerY" secondItem="dCk-Nn-dd2" secondAttribute="centerY" id="rUZ-lg-gZZ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -181,6 +214,22 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kuN-17-KNb" id="Jmw-r1-AwN">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unM-MF-t8Q">
+                                                    <rect key="frame" x="20" y="7.0000000000000018" width="56" height="29.666666666666671"/>
+                                                    <state key="normal" title="Website"/>
+                                                    <connections>
+                                                        <action selector="didClickWebsite:" destination="xV5-IK-Un4" eventType="touchUpInside" id="af8-jT-mrQ"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="unM-MF-t8Q" secondAttribute="trailing" constant="20" symbolic="YES" id="IBG-4l-rAH"/>
+                                                <constraint firstAttribute="bottom" secondItem="unM-MF-t8Q" secondAttribute="bottom" constant="6.9999999999999929" id="Ih1-Dj-Vdx"/>
+                                                <constraint firstItem="unM-MF-t8Q" firstAttribute="top" secondItem="Jmw-r1-AwN" secondAttribute="top" constant="7" id="Q4n-80-5Y2"/>
+                                                <constraint firstItem="unM-MF-t8Q" firstAttribute="centerY" secondItem="Jmw-r1-AwN" secondAttribute="centerY" id="npU-cS-ttu"/>
+                                                <constraint firstItem="unM-MF-t8Q" firstAttribute="leading" secondItem="Jmw-r1-AwN" secondAttribute="leading" constant="20" id="qK3-dR-clu"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -192,18 +241,26 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="emailButton" destination="TIn-GL-PXs" id="XW6-Ki-FR8"/>
                         <outlet property="emailCell" destination="tnM-er-qAL" id="fzB-fw-5kZ"/>
                         <outlet property="overviewCell" destination="Sne-fC-gnP" id="RhX-ZF-Y8g"/>
+                        <outlet property="phoneButton" destination="dZ7-I8-Ico" id="KDf-yc-yV9"/>
                         <outlet property="phoneCell" destination="b8Q-hF-srd" id="TO3-QJ-8HL"/>
                         <outlet property="satMathCell" destination="dTe-ss-o9C" id="JsA-s9-hhR"/>
                         <outlet property="satReadingCell" destination="Jmw-1D-TOC" id="qfx-ds-Tw3"/>
                         <outlet property="satWritingCell" destination="1vT-Yo-uDx" id="7qR-ZO-4wC"/>
+                        <outlet property="websiteButton" destination="unM-MF-t8Q" id="MAO-Ce-D6E"/>
                         <outlet property="websiteCell" destination="kuN-17-KNb" id="7f1-L2-NGY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dz1-xl-3tp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="g8h-Pn-6dq">
+                    <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button"/>
+                </button>
             </objects>
-            <point key="canvasLocation" x="724" y="139"/>
+            <point key="canvasLocation" x="723.1884057971015" y="138.58695652173915"/>
         </scene>
     </scenes>
 </document>
