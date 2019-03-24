@@ -28,7 +28,7 @@ final class SearchResultsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID) {
+        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID), filteredSchools.count > indexPath.row {
             let schoolName = filteredSchools[indexPath.row].name
             boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             schoolCell.textLabel?.numberOfLines = 0

@@ -252,7 +252,9 @@ extension SchoolsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let schoolCell = schoolsListTableView.dequeueReusableCell(withIdentifier: schoolCellID) {
-            schoolCell.textLabel?.text = schools[indexPath.row].name
+            if schools.count > indexPath.row {
+                schoolCell.textLabel?.text = schools[indexPath.row].name
+            }
             return schoolCell
         }
         
@@ -291,9 +293,14 @@ extension SchoolsListViewController: UITableViewDelegate {
         var schoolClicked: School?
         
         if tableView === schoolsListTableView {
-            schoolClicked = schools[indexPath.row]
+            if schools.count > indexPath.row {
+                schoolClicked = schools[indexPath.row]
+            }
+            
         } else if let resultsTableController = resultsTableController {
-            schoolClicked = resultsTableController.filteredSchools[indexPath.row]
+            if resultsTableController.filteredSchools.count > indexPath.row {
+                schoolClicked = resultsTableController.filteredSchools[indexPath.row]
+            }
         }
         
         return schoolClicked
