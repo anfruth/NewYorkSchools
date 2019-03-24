@@ -31,6 +31,8 @@ final class SchoolsListViewController: UIViewController {
     private var waitedIntervalAfterSearch = false
     private let searchOperationQueue = OperationQueue()
     
+    private let tableViewPullUpThreshold: CGFloat = -30
+    
     
     // MARK: - Overriden Methods
     override func viewDidLoad() {
@@ -296,13 +298,42 @@ final class SchoolsListViewController: UIViewController {
         return (schoolIndex / Networking.schoolResultsPerCall) % Networking.schoolResultsPerCall
     }
     
-    private func needToDownloadMoreSchools(schoolsCount: Int, indexPath: IndexPath) -> Bool {
-        let lastDownloadCellDisplayed = lastDownloadedCellWillDisplay(schoolsCount: schoolsCount, indexPath: indexPath)
-        return lastDownloadCellDisplayed && !populateTableWithSchoolDataUnderway && !retrievedAllSchools
+    private func needToDownloadMoreSchools(schoolsCount: Int, indexPath: IndexPath?) -> Bool {
+        
+        if let indexPath = indexPath {
+            let lastDownloadCellDisplayed = lastDownloadedCellWillDisplay(schoolsCount: schoolsCount, indexPath: indexPath)
+            return lastDownloadCellDisplayed && !populateTableWithSchoolDataUnderway && !retrievedAllSchools
+            
+        } else {
+            let tableViewPulledUp = isTableViewPulledUp()
+            return tableViewPulledUp && !populateTableWithSchoolDataUnderway && !retrievedAllSchools
+        }
     }
     
     private func lastDownloadedCellWillDisplay(schoolsCount: Int, indexPath: IndexPath) -> Bool {
         return schoolsCount - 1 == indexPath.row
+    }
+    
+    // Thanks to: https://stackoverflow.com/questions/27190848/how-to-show-pull-to-refresh-element-at-the-bottom-of-the-uitableview-in-swift
+    private func isTableViewPulledUp() -> Bool {
+        let currentOffset = schoolsListTableView.contentOffset.y
+        let maxOffset = schoolsListTableView.contentSize.height - schoolsListTableView.frame.size.height
+        let amountPulledUp = maxOffset - currentOffset
+        
+        return amountPulledUp <= tableViewPullUpThreshold
+    }
+    
+    private func handleDownloadingMoreSchools(indexPath: IndexPath?) {
+        let schoolsCount = schools.count
+        
+        if needToDownloadMoreSchools(schoolsCount: schoolsCount, indexPath: indexPath) {
+            let schoolParitionIndex = getSchoolPartitionIndex(from: schoolsCount)
+            
+            footerSpinner.startAnimating()
+            populateTableWithSchoolData(with: schoolParitionIndex) { [weak self] in
+                self?.footerSpinner.stopAnimating()
+            }
+        }
     }
 }
 
@@ -337,16 +368,7 @@ extension SchoolsListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let schoolsCount = schools.count
-        
-        if needToDownloadMoreSchools(schoolsCount: schoolsCount, indexPath: indexPath) {
-            let schoolParitionIndex = getSchoolPartitionIndex(from: schoolsCount)
-            
-            footerSpinner.startAnimating()
-            populateTableWithSchoolData(with: schoolParitionIndex) { [weak self] in
-                self?.footerSpinner.stopAnimating()
-            }
-        }
+        handleDownloadingMoreSchools(indexPath: indexPath)
     }
     
     // varies based on regular table vs. filtered from search table
@@ -389,6 +411,15 @@ extension SchoolsListViewController: UITableViewDelegate {
                 self?.performDetailVCSegue(with: schoolClicked)
             }
         }
+    }
+    
+}
+
+// a sort of pull to refresh at the bottom of the table view in case the previous download failed.
+extension SchoolsListViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        handleDownloadingMoreSchools(indexPath: nil) // will only download if needed
     }
     
 }
