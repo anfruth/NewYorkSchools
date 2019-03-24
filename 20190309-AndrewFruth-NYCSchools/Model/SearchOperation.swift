@@ -59,11 +59,13 @@ final class SearchOperation: Operation {
     override func start() {
         if isCancelledAndFinish() { return }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + secondsDelayFromTypingSearch) {
-            if !self.isCancelled {
-                self.runOperationAfterDelay()
+        DispatchQueue.main.asyncAfter(deadline: .now() + secondsDelayFromTypingSearch) { [weak self] in
+            guard let operation = self else { return } // operation must have finished if self is nil so no need to finishOp (should never happen)
+            
+            if !operation.isCancelled {
+                operation.runOperationAfterDelay()
             } else {
-                self.finishOp(schools: nil)
+                operation.finishOp(schools: nil)
             }
         }
         
@@ -71,11 +73,12 @@ final class SearchOperation: Operation {
     
     private func runOperationAfterDelay() {
         searchOperationDelegte?.willMakeSearchNetworkCall()
-        Networking.retrieveSchools(containing: searchTerms) { schools in
+        Networking.retrieveSchools(containing: searchTerms) { [weak self] schools in
+            guard let operation = self else { return } // operation must have finished if self is nil so no need to finishOp (should never happen)
             
-            self.searchOperationDelegte?.didFinishSearchNetworkCall()
-            if self.isCancelledAndFinish() { return }
-            self.finishOp(schools: schools)
+            operation.searchOperationDelegte?.didFinishSearchNetworkCall()
+            if operation.isCancelledAndFinish() { return }
+            operation.finishOp(schools: schools)
         }
     }
     

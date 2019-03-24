@@ -71,7 +71,6 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
-    
     /**
      Creates a personalized greeting for a recipient.
         Sets up the search controller and bar.
@@ -432,8 +431,8 @@ extension SchoolsListViewController: UISearchResultsUpdating {
      However, given the nature of asynchronous network calls, it's important to avoid the case where multiple calls are made, but
      then returned in a different order from which they were made. I didn't want "Aca" results to show up after the user finished
      typing in "Academy." In addition, I wanted to reduce network calls as much as possible while maintaining a responsive search
-     experience. To do so I created a serial operation queue with a maximum of one operation in the queue. Any previous searches are
-     immediately cancelled and results (if networking was already underway) are ignored.
+     experience. To do so I created a serial operation queue. Any previous searches are immediately cancelled and results
+     (if networking was already underway) are ignored.
     */
     func updateSearchResults(for searchController: UISearchController) {
         
