@@ -10,11 +10,8 @@ import UIKit
 
 final class SearchResultsTableViewController: UITableViewController {
     
-    
     var filteredSchools: [School] = []
     var allSearchStrings: [String] = []
-    let customVCFont = UIFont(name: "SanFranciscoDisplay-Regular", size: 16)
-    let bolderFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 16)
     private let filteredSchoolID = "filteredSchoolCell"
 
     override func viewDidLoad() {
@@ -44,7 +41,7 @@ final class SearchResultsTableViewController: UITableViewController {
     }
     
     private func boldSearchTerms(schoolName: String, schoolCell: UITableViewCell) {
-        guard let customVCFont = customVCFont, let bolderFont = bolderFont else { return }
+        guard let customVCFont = Fonts.regularSF, let bolderFont = Fonts.boldSF else { return }
         let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: [NSAttributedString.Key.font: customVCFont])
         
         for searchString in allSearchStrings {

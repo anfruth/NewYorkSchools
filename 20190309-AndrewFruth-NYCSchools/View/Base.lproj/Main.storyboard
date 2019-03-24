@@ -205,8 +205,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIn-GL-PXs">
-                                                    <rect key="frame" x="20" y="7.0000000000000018" width="39" height="29.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <rect key="frame" x="20" y="7.0000000000000018" width="40" height="29.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="SanFranciscoDisplay-Regular" family="San Francisco Display" pointSize="17"/>
                                                     <state key="normal" title="Email"/>
                                                     <connections>
                                                         <action selector="didClickEmailButton:" destination="xV5-IK-Un4" eventType="touchUpInside" id="bua-Q8-Hul"/>
@@ -231,7 +231,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZ7-I8-Ico">
                                                     <rect key="frame" x="20" y="7.0000000000000018" width="47" height="29.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="SanFranciscoDisplay-Regular" family="San Francisco Display" pointSize="17"/>
                                                     <state key="normal" title="Phone"/>
                                                     <connections>
                                                         <action selector="didClickPhoneButton:" destination="xV5-IK-Un4" eventType="touchUpInside" id="hcW-wJ-1DD"/>
@@ -260,7 +260,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unM-MF-t8Q">
                                                     <rect key="frame" x="20" y="7.0000000000000018" width="59" height="29.666666666666671"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="SanFranciscoDisplay-Regular" family="San Francisco Display" pointSize="17"/>
                                                     <state key="normal" title="Website"/>
                                                     <connections>
                                                         <action selector="didClickWebsite:" destination="xV5-IK-Un4" eventType="touchUpInside" id="af8-jT-mrQ"/>

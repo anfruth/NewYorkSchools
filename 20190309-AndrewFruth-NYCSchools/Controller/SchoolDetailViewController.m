@@ -98,6 +98,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
         [self.emailButton setTitle:self.school.email forState:UIControlStateNormal];
     } else {
         self.emailButton.hidden = YES;
+        self.emailCell.textLabel.font = Fonts.regularSF;
         self.emailCell.textLabel.text = NSLocalizedString(noEmailKey, @"");
     }
 }
@@ -107,6 +108,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
         [self.phoneButton setTitle:self.school.phone forState:UIControlStateNormal];
     } else {
         self.phoneButton.hidden = YES;
+        self.phoneCell.textLabel.font = Fonts.regularSF;
         self.phoneCell.textLabel.text = NSLocalizedString(noPhoneKey, @"");
     }
 }
@@ -116,6 +118,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
         [self.websiteButton setTitle:self.school.website forState:UIControlStateNormal];
     } else {
         self.websiteButton.hidden = YES;
+        self.websiteCell.textLabel.font = Fonts.regularSF;
         self.websiteCell.textLabel.text = NSLocalizedString(noWebsiteKey, @"");
     }
 }

@@ -15,12 +15,15 @@
 		7748BF8522449CD900FC2487 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF8422449CD900FC2487 /* Localizable.strings */; };
 		7748BF962247062A00FC2487 /* SanFranciscoDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */; };
 		7748BF982247063400FC2487 /* SanFranciscoDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */; };
+		7748BF9A22470D2800FC2487 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9922470D2800FC2487 /* Fonts.swift */; };
+		7748BF9C22471B3700FC2487 /* SATScoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9B22471B3700FC2487 /* SATScoresTests.swift */; };
+		7748BF9E2247231900FC2487 /* SearchOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9D2247231900FC2487 /* SearchOperationTests.swift */; };
 		77888E12223468B100308D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E11223468B100308D29 /* AppDelegate.swift */; };
 		77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* SchoolsListViewController.swift */; };
 		77888E17223468B100308D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E15223468B100308D29 /* Main.storyboard */; };
 		77888E19223468B300308D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77888E18223468B300308D29 /* Assets.xcassets */; };
 		77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E1A223468B300308D29 /* LaunchScreen.storyboard */; };
-		77888E27223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */; };
+		77888E27223468B300308D29 /* SchoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E26223468B300308D29 /* SchoolTests.swift */; };
 		77888E322234734F00308D29 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E312234734F00308D29 /* Networking.swift */; };
 		77888E342234770600308D29 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E332234770600308D29 /* School.swift */; };
 		77888E36223478C300308D29 /* SATScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E35223478C300308D29 /* SATScores.swift */; };
@@ -46,6 +49,9 @@
 		7748BF8422449CD900FC2487 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Regular.otf"; sourceTree = "<group>"; };
 		7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Bold.otf"; sourceTree = "<group>"; };
+		7748BF9922470D2800FC2487 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		7748BF9B22471B3700FC2487 /* SATScoresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATScoresTests.swift; sourceTree = "<group>"; };
+		7748BF9D2247231900FC2487 /* SearchOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperationTests.swift; sourceTree = "<group>"; };
 		77888E0E223468B100308D29 /* 20190309-AndrewFruth-NYCSchools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E11223468B100308D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		77888E13223468B100308D29 /* SchoolsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolsListViewController.swift; sourceTree = "<group>"; };
@@ -54,7 +60,7 @@
 		77888E1B223468B300308D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77888E1D223468B300308D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77888E22223468B300308D29 /* 20190309-AndrewFruth-NYCSchoolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchoolsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _0190309_AndrewFruth_NYCSchoolsTests.swift; sourceTree = "<group>"; };
+		77888E26223468B300308D29 /* SchoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolTests.swift; sourceTree = "<group>"; };
 		77888E28223468B300308D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77888E312234734F00308D29 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		77888E332234770600308D29 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 				77888E332234770600308D29 /* School.swift */,
 				77888E35223478C300308D29 /* SATScores.swift */,
 				7736B05C223E34D200F4B3EA /* SearchOperation.swift */,
+				7748BF9922470D2800FC2487 /* Fonts.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,7 +177,9 @@
 		77888E25223468B300308D29 /* 20190309-AndrewFruth-NYCSchoolsTests */ = {
 			isa = PBXGroup;
 			children = (
-				77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */,
+				77888E26223468B300308D29 /* SchoolTests.swift */,
+				7748BF9B22471B3700FC2487 /* SATScoresTests.swift */,
+				7748BF9D2247231900FC2487 /* SearchOperationTests.swift */,
 				77888E28223468B300308D29 /* Info.plist */,
 			);
 			path = "20190309-AndrewFruth-NYCSchoolsTests";
@@ -290,6 +299,7 @@
 				7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */,
 				77888E342234770600308D29 /* School.swift in Sources */,
 				7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */,
+				7748BF9A22470D2800FC2487 /* Fonts.swift in Sources */,
 				77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */,
 				7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */,
 			);
@@ -299,7 +309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77888E27223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift in Sources */,
+				77888E27223468B300308D29 /* SchoolTests.swift in Sources */,
+				7748BF9C22471B3700FC2487 /* SATScoresTests.swift in Sources */,
+				7748BF9E2247231900FC2487 /* SearchOperationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
