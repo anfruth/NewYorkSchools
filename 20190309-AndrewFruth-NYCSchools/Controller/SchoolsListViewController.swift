@@ -120,6 +120,7 @@ final class SchoolsListViewController: UIViewController {
     
     /**
      Sets up and hides views after the initial school results are populated.
+     In case of no network connection on loading of the app or API failure, I added in a no results label.
      */
     private func handlePopulatingSchoolDataComplete() {
         if  schools.isEmpty {
@@ -415,8 +416,13 @@ extension SchoolsListViewController: UISearchResultsUpdating {
         enqueueSearchOperation(searchWords: searchWords)
     }
     
-    // Detects the search words and splits up words by white space. That way a search of "High School" can
-    // highlight a school name of "High Hill Elementary School" rather than simply "Hill High School".
+    /*
+     Detects the search words and splits up words by white space. That way a search of "High School" can
+     highlight a school name of "High Hill Elementary School" rather than simply "Hill High School".
+     Socrata's search API is unfortunately case sensitive, and because most of the school names are
+     capitalized, I automatically capitalize all search terms. However, some words such as "and" or "for"
+     are lower case and, therefore, will not show results unless the school name contains "And" or "For".
+     */
     private func getSearchWordsFromSearchBar(searchController: UISearchController) -> [Substring]? {
         let whitespaceCharacterSet = CharacterSet.whitespaces
         if let strippedString = searchController.searchBar.text?.trimmingCharacters(in: whitespaceCharacterSet) {

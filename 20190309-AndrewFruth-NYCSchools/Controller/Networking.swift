@@ -10,6 +10,9 @@ import Foundation
 
 struct Networking {
     
+    // With more time I would have like to show a no connection state in the event of a lost internet connection. As it is now,
+    // more schools will not download if the internet is lost, but will download again when it is regained. 
+    
     static let schoolResultsPerCall = 50
     private static let session = URLSession.shared
     private static let schoolEndpoint = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
