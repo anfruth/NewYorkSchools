@@ -14,7 +14,7 @@ final class SchoolsListViewController: UIViewController {
     @IBOutlet private weak var noResultsLabel: UILabel!
     
     private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
-    private lazy var mainSpinner: MainSpinner = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)![0] as! MainSpinner
+    private lazy var mainSpinner: MainSpinner? = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner
     
     private var resultsTableController: SearchResultsTableViewController?
     
@@ -40,6 +40,9 @@ final class SchoolsListViewController: UIViewController {
         schoolsListTableView.delegate = self
         footerSpinner.hidesWhenStopped = true
         schoolsListTableView.tableFooterView = footerSpinner
+        if let bolderFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 20) {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: bolderFont]
+        }
         
         populateTableWithSchoolData() { [weak self] in
             self?.handlePopulatingSchoolDataComplete()
@@ -83,12 +86,12 @@ final class SchoolsListViewController: UIViewController {
     
     // MARK: - Retrieve And Handle School Data Methods
     private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
-        if schoolIndex == 0 { mainSpinner.start(viewAddingSpinner: view) }
+        if schoolIndex == 0 { mainSpinner?.start(viewAddingSpinner: view) }
         
         populateTableWithSchoolDataUnderway = true
         Networking.retrieveSchoolData(with: schoolIndex) { [weak self] (schools) in
             if schoolIndex == 0 {
-                DispatchQueue.main.async { self?.mainSpinner.stop() }
+                DispatchQueue.main.async { self?.mainSpinner?.stop() }
             }
             
             if let vc = self {
@@ -134,9 +137,9 @@ final class SchoolsListViewController: UIViewController {
     private func handleRetrievingSATScores(with schoolClicked: School, indexPath: IndexPath) {
         let schoolParitionIndex = getSchoolPartitionIndex(from: indexPath.row)
         
-        mainSpinner.start(viewAddingSpinner: view)
+        mainSpinner?.start(viewAddingSpinner: view)
         addSATDataToSchools(with: schoolParitionIndex) { [weak self] error in
-            self?.mainSpinner.stop()
+            self?.mainSpinner?.stop()
             self?.performDetailVCSegue(with: schoolClicked)
         }
     }
@@ -310,9 +313,9 @@ extension SchoolsListViewController: UITableViewDelegate {
             handleRetrievingSATScores(with: schoolClicked, indexPath: indexPath)
             
         } else if let resultsTableController = resultsTableController {
-            mainSpinner.start(viewAddingSpinner: resultsTableController.view)
+            mainSpinner?.start(viewAddingSpinner: resultsTableController.view)
             addSATDataToSchool(with: schoolClicked) { [weak self] error in
-                self?.mainSpinner.stop()
+                self?.mainSpinner?.stop()
                 self?.performDetailVCSegue(with: schoolClicked)
             }
         }
@@ -374,13 +377,13 @@ extension SchoolsListViewController: SearchOperationDelegate {
     func willMakeSearchNetworkCall() {
         DispatchQueue.main.async { [weak self] in
             guard let resultsVCView = self?.resultsTableController?.view else { return }
-            self?.mainSpinner.start(viewAddingSpinner: resultsVCView)
+            self?.mainSpinner?.start(viewAddingSpinner: resultsVCView)
         }
     }
     
     func didFinishSearchNetworkCall() {
         DispatchQueue.main.async { [weak self] in
-            self?.mainSpinner.stop()
+            self?.mainSpinner?.stop()
         }
     }
     

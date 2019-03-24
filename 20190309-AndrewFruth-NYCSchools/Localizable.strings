@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  20190309-AndrewFruth-NYCSchools
+
+  Created by Andrew Fruth on 3/21/19.
+  Copyright © 2019 Andrew Fruth. All rights reserved.
+*/
+
+
+/* SchoolDetailViewController */
+
+"NoOverview" = "No Overview Available";
+"NoEmail" = "No Email Available";
+"NoPhone" = "No Phone Available";
+"NoWebsite" = "No Website Available";
+"None" = "None Available";
+
+"Writing" = "Writing";
+"Reading" = "Reading";
+"Math" = "Math";

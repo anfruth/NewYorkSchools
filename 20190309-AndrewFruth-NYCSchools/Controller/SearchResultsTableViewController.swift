@@ -13,27 +13,30 @@ final class SearchResultsTableViewController: UITableViewController {
     
     var filteredSchools: [School] = []
     var allSearchStrings: [String] = []
+    let customVCFont = UIFont(name: "SanFranciscoDisplay-Regular", size: 16)
+    let bolderFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 16)
+    private let filteredSchoolID = "filteredSchoolCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "filteredSchoolCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: filteredSchoolID)
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
         return filteredSchools.count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: "filteredSchoolCell") {
+        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID) {
             let schoolName = filteredSchools[indexPath.row].name
             boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             schoolCell.textLabel?.numberOfLines = 0
             schoolCell.accessoryType = .disclosureIndicator
+            boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             return schoolCell
         }
         
@@ -41,12 +44,13 @@ final class SearchResultsTableViewController: UITableViewController {
     }
     
     private func boldSearchTerms(schoolName: String, schoolCell: UITableViewCell) {
-        let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: nil)
+        guard let customVCFont = customVCFont, let bolderFont = bolderFont else { return }
+        let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: [NSAttributedString.Key.font: customVCFont])
         
         for searchString in allSearchStrings {
             let rangesToBold = (schoolName as NSString).getRanges(of: searchString)
             for range in rangesToBold {
-                attributedSchoolName.setAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)], range: range)
+                attributedSchoolName.setAttributes([NSAttributedString.Key.font: bolderFont], range: range)
             }
         }
         

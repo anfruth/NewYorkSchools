@@ -12,6 +12,9 @@
 		7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05C223E34D200F4B3EA /* SearchOperation.swift */; };
 		7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7736B05E223EC88100F4B3EA /* MainSpinner.xib */; };
 		7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B060223EC99A00F4B3EA /* MainSpinner.swift */; };
+		7748BF8522449CD900FC2487 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF8422449CD900FC2487 /* Localizable.strings */; };
+		7748BF962247062A00FC2487 /* SanFranciscoDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */; };
+		7748BF982247063400FC2487 /* SanFranciscoDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */; };
 		77888E12223468B100308D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E11223468B100308D29 /* AppDelegate.swift */; };
 		77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* SchoolsListViewController.swift */; };
 		77888E17223468B100308D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E15223468B100308D29 /* Main.storyboard */; };
@@ -40,6 +43,9 @@
 		7736B05C223E34D200F4B3EA /* SearchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperation.swift; sourceTree = "<group>"; };
 		7736B05E223EC88100F4B3EA /* MainSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSpinner.xib; sourceTree = "<group>"; };
 		7736B060223EC99A00F4B3EA /* MainSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSpinner.swift; sourceTree = "<group>"; };
+		7748BF8422449CD900FC2487 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Regular.otf"; sourceTree = "<group>"; };
+		7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Bold.otf"; sourceTree = "<group>"; };
 		77888E0E223468B100308D29 /* 20190309-AndrewFruth-NYCSchools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E11223468B100308D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		77888E13223468B100308D29 /* SchoolsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolsListViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +123,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		7748BF942247060800FC2487 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */,
+				7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		77888E05223468B100308D29 = {
 			isa = PBXGroup;
 			children = (
@@ -143,8 +158,10 @@
 				773CA10C2235F1930082742D /* Controller */,
 				773CA10B2235F1700082742D /* Model */,
 				77197E552240BF7000508D20 /* Protocol */,
+				7748BF942247060800FC2487 /* Fonts */,
 				77888E18223468B300308D29 /* Assets.xcassets */,
 				77888E1D223468B300308D29 /* Info.plist */,
+				7748BF8422449CD900FC2487 /* Localizable.strings */,
 				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
 			);
 			path = "20190309-AndrewFruth-NYCSchools";
@@ -241,8 +258,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7748BF982247063400FC2487 /* SanFranciscoDisplay-Bold.otf in Resources */,
+				7748BF8522449CD900FC2487 /* Localizable.strings in Resources */,
 				7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */,
 				77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */,
+				7748BF962247062A00FC2487 /* SanFranciscoDisplay-Regular.otf in Resources */,
 				77888E19223468B300308D29 /* Assets.xcassets in Resources */,
 				77888E17223468B100308D29 /* Main.storyboard in Resources */,
 			);

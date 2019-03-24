@@ -16,13 +16,15 @@ final class SearchOperation: Operation {
     private let searchTerms: [String]
     private let completionHandler: (([School]?) -> ())?
     private let secondsDelayFromTypingSearch = 0.5
+    private let isExecutingKey = "isExecuting"
+    private let isFinishedKey = "isFinished"
     
     private var _isExecuting: Bool {
         willSet {
-            willChangeValue(forKey: "isExecuting")
+            willChangeValue(forKey: isExecutingKey)
         }
         didSet {
-            didChangeValue(forKey: "isExecuting")
+            didChangeValue(forKey: isExecutingKey)
         }
     }
     override var isExecuting: Bool {
@@ -31,10 +33,10 @@ final class SearchOperation: Operation {
     
     private var _isFinished: Bool {
         willSet {
-            willChangeValue(forKey: "isFinished")
+            willChangeValue(forKey: isFinishedKey)
         }
         didSet {
-            didChangeValue(forKey: "isFinished")
+            didChangeValue(forKey: isFinishedKey)
         }
     }
     
