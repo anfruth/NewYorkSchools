@@ -95,36 +95,28 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     [self setWebsiteField];
 }
 
-// could create a dictionary to map UI elements together to avoid the repetition in the 3 methods below.
-
 - (void)setEmailField {
-    if (self.school.email) {
-        [self.emailButton setTitle:self.school.email forState:UIControlStateNormal];
-    } else {
-        self.emailButton.hidden = YES;
-        self.emailCell.textLabel.font = Fonts.regularSF;
-        self.emailCell.textLabel.text = NSLocalizedString(noEmailKey, @"");
-    }
+    [self setContactFieldWithField:self.school.email withButton:self.emailButton withTableViewCell:self.emailCell withLocalizedStringKey:noEmailKey];
 }
 
 - (void)setPhoneField {
-    if (self.school.phone) {
-        [self.phoneButton setTitle:self.school.phone forState:UIControlStateNormal];
-    } else {
-        self.phoneButton.hidden = YES;
-        self.phoneCell.textLabel.font = Fonts.regularSF;
-        self.phoneCell.textLabel.text = NSLocalizedString(noPhoneKey, @"");
-    }
+    [self setContactFieldWithField:self.school.phone withButton:self.phoneButton withTableViewCell:self.phoneCell withLocalizedStringKey:noPhoneKey];
 }
 
 - (void)setWebsiteField {
-    if (self.school.website) {
-        [self.websiteButton setTitle:self.school.website forState:UIControlStateNormal];
+    [self setContactFieldWithField:self.school.website withButton:self.websiteButton withTableViewCell:self.websiteCell withLocalizedStringKey:noWebsiteKey];
+}
+
+- (void)setContactFieldWithField:(NSString *)field withButton:(UIButton *)button withTableViewCell:(UITableViewCell *)cell withLocalizedStringKey:(NSString *)localizedKey {
+    
+    if (field) {
+        [button setTitle:field forState:UIControlStateNormal];
     } else {
-        self.websiteButton.hidden = YES;
-        self.websiteCell.textLabel.font = Fonts.regularSF;
-        self.websiteCell.textLabel.text = NSLocalizedString(noWebsiteKey, @"");
+        button.hidden = YES;
+        cell.textLabel.font = Fonts.regularSF;
+        cell.textLabel.text = NSLocalizedString(localizedKey, @"");
     }
+    
 }
 
 - (nullable NSString *)generateTextWithTest:(SATTest)test {

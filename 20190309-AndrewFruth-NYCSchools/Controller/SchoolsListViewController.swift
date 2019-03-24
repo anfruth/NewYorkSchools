@@ -12,6 +12,7 @@ final class SchoolsListViewController: UIViewController {
 
     @IBOutlet private weak var schoolsListTableView: UITableView!
     @IBOutlet private weak var noResultsLabel: UILabel!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
     private lazy var mainSpinner: MainSpinner? = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner
@@ -24,6 +25,12 @@ final class SchoolsListViewController: UIViewController {
     private var populateTableWithSchoolDataUnderway = false
     private var retrievedAllSchools = false
     
+    private var refreshAllSchoolsUnderway = false {
+        didSet {
+           refreshButton.isEnabled = !refreshAllSchoolsUnderway
+        }
+    }
+    
     private let schoolDetailSegueID = "showSchoolDetail"
     private let schoolCellID = "schoolCell"
     
@@ -33,7 +40,6 @@ final class SchoolsListViewController: UIViewController {
     
     private let tableViewPullUpThreshold: CGFloat = -30
     
-    
     // MARK: - Overriden Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +48,8 @@ final class SchoolsListViewController: UIViewController {
         schoolsListTableView.delegate = self
         footerSpinner.hidesWhenStopped = true
         schoolsListTableView.tableFooterView = footerSpinner
-        if let bolderFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 20) {
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: bolderFont]
+        if let navBarFont = Fonts.navigationBarFont {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navBarFont]
         }
         
         populateTableWithSchoolData() { [weak self] in
@@ -64,10 +70,15 @@ final class SchoolsListViewController: UIViewController {
     
     // clears all schools data and repopulates first 50 results upon clicking refresh button
     @IBAction func refreshAllResults(_ sender: UIBarButtonItem) {
-        schools.removeAll()
-        retrievedAllSchools = false
-        populateTableWithSchoolData() { [weak self] in
-            self?.handlePopulatingSchoolDataComplete()
+        if !refreshAllSchoolsUnderway {
+            
+            refreshAllSchoolsUnderway = true
+            schools.removeAll()
+            retrievedAllSchools = false
+            populateTableWithSchoolData() { [weak self] in
+                self?.handlePopulatingSchoolDataComplete()
+                self?.refreshAllSchoolsUnderway = false
+            }
         }
     }
     

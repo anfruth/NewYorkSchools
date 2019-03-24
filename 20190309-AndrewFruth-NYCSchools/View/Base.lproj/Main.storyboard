@@ -102,6 +102,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="noResultsLabel" destination="fpk-mA-4Wy" id="Z8P-8q-V8j"/>
+                        <outlet property="refreshButton" destination="MSN-pc-7ra" id="QDr-XX-0QH"/>
                         <outlet property="schoolsListTableView" destination="YTL-tj-5If" id="ojo-Lc-nvu"/>
                         <segue destination="xV5-IK-Un4" kind="show" identifier="showSchoolDetail" id="val-Ez-38e"/>
                     </connections>
