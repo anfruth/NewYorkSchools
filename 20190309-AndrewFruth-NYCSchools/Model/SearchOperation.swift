@@ -55,6 +55,7 @@ final class SearchOperation: Operation {
         super.init()
     }
     
+    // See: func updateSearchResults(for searchController: UISearchController) for more explanation.
     override func start() {
         if isCancelledAndFinish() { return }
         

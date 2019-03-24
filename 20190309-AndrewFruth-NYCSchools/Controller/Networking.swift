@@ -42,6 +42,7 @@ struct Networking {
         task.resume()
     }
     
+    // search functionality, find schools with nameWords
     static func retrieveSchools(containing nameWords: [String], completionHandler: @escaping ([School]?) -> ()) {
         let endpoint = Networking.generateSchoolsByNameSearchEndpoint(with: nameWords)
         guard let schoolURLWithSearchParams = URL(string: endpoint) else {

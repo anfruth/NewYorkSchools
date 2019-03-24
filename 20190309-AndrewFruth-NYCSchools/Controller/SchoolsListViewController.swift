@@ -60,14 +60,20 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // clears all schools data and repopulates first 50 results upon clicking refresh button
     @IBAction func refreshAllResults(_ sender: UIBarButtonItem) {
-        schools = []
+        schools.removeAll()
         retrievedAllSchools = false
         populateTableWithSchoolData() { [weak self] in
             self?.handlePopulatingSchoolDataComplete()
         }
     }
     
+    
+    /**
+     Creates a personalized greeting for a recipient.
+        Sets up the search controller and bar.
+     */
     private func setupSearchController() {
         resultsTableController = SearchResultsTableViewController()
         resultsTableController?.tableView.delegate = self
@@ -85,6 +91,16 @@ final class SchoolsListViewController: UIViewController {
     
     
     // MARK: - Retrieve And Handle School Data Methods
+     /**
+     Populates the school list table view with schools.
+     
+     - Parameter schoolIndex: The partition index to decide what schools to download.
+     - Parameter completionHandler: The handler to be executed after school data is finished being processed.
+     
+     The schoolIndex decides what group of results to display. For example, if the backend database has 400 possible
+     schools, the partition index tells the app which part of those 400 to download. Since Networking.schoolsPerCall is 50,
+     a schoolIndex of 0 would download the first 50 results. An index of 1 would download the 50 results after that.
+     */
     private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
         if schoolIndex == 0 { mainSpinner?.start(viewAddingSpinner: view) }
         
@@ -102,6 +118,9 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    /**
+     Sets up and hides views after the initial school results are populated.
+     */
     private func handlePopulatingSchoolDataComplete() {
         if  schools.isEmpty {
             noResultsLabel.isHidden = false
@@ -114,12 +133,26 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    /**
+     Saves schools to memory and refreshes the school list table.
+     
+     - Parameter schools: The schools to save.
+     - Parameter completionHandler: The handler to be executed after schools are saved.
+     
+     The Socrata API does not give a count of total schools when paginating. Therefore, the flag "retrievedAllSchools" is
+     used to determine if there are more results to fetch. This is not ideal because if Socrata ever returned an empty array
+     due to an API error, the app would think there are no more results.
+     
+     It was necessary because the app doesn't want to continue
+     to make API calls repeatedly to check if there are more results when scrolling through the table. The best solution would be to
+     have some sort of API call that provides the total count while paginating. Network failures will not make "retrievedAllSchools"
+     true because the schools array will be nil.
+     */
     private func handleProcessingSchoolData(with schools: [School]?, completionHandler: (() -> ())?) {
         DispatchQueue.main.async { [weak self] in
             if let schools = schools {
                 if schools.count == 0 || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
                 self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
-                completionHandler?()
             }
             
             self?.populateTableWithSchoolDataUnderway = false
@@ -127,6 +160,7 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // helper method for the above
     private func saveSchoolDataToCacheAndRefreshTable(with schools: [School]) {
         self.schools.append(contentsOf: schools) // avoid duplicates
         schoolsListTableView.reloadData()
@@ -134,6 +168,16 @@ final class SchoolsListViewController: UIViewController {
     
     // MARK: - Core Retrieve And Handle SAT Scores Methods
     
+    /**
+     Adds SAT scores to schools and shows the clicked school's detail page.
+     
+     - Parameter schoolClicked: The school clicked.
+     - Parameter indexPath: The indexPath of the cell clicked.
+     
+     Upon clicking a school, this method will download the SAT scores of that school and some surrounding schools to save on
+     extra network calls if surrounding schools are clicked as well. Some schools may not have SAT scores or the SAT network call
+     could fail. If either case happens, that school detail page will show SAT scores as unavailable.
+     */
     private func handleRetrievingSATScores(with schoolClicked: School, indexPath: IndexPath) {
         let schoolParitionIndex = getSchoolPartitionIndex(from: indexPath.row)
         
@@ -144,6 +188,7 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // helper method for the above.
     private func addSATDataToSchools(with schoolPartitionIndex: Int, completionHandler: @escaping (Error?) -> ()) {
         let schoolsToQuery = getSchoolsToQueryForSATScores(with: schoolPartitionIndex)
         
@@ -156,6 +201,7 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // helper method for the above.
     private func addSATDataToSchool(with school: School, completionHandler: @escaping (Error?) -> ()) {
         let schools: ArraySlice<School> = [school]
         
@@ -168,6 +214,19 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // MARK: - Core Retrieve And Handle SAT Scores Methods
+    
+    /**
+     Saves the SAT score data to the appropriate schools.
+     
+     - Parameter schoolsToQuery: The schools to get SAT scores for.
+     - Parameter satScoresList: The returned SAT scores list from the API call.
+     - Parameter error: Any error from the network API call.
+     - Parameter completionHandler: Handler to be called after processing SAT scores is complete.
+     
+     Relates unique dbn identifier of schools to SAT scores. Uses dictionary rather than repeated array traversal for added
+     efficiency.
+     */
     private func handleProcessingSATScores(for schoolsToQuery: ArraySlice<School>, satScoresList: [SATScores]?, error: Error?, completionHandler: @escaping (Error?) -> () ) {
         
         guard let satScoresList = satScoresList, error == nil else {
@@ -182,6 +241,7 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
+    // MARK: - Helper SAT Scores Methods
     private func saveSATDataToCache(with schools: ArraySlice<School>, scoresIDMapping: [String: SATScores]) {
         
         for school in schools {
@@ -193,7 +253,6 @@ final class SchoolsListViewController: UIViewController {
         }
     }
     
-    // MARK: - Helper SAT Scores Methods
     private func getSchoolsToQueryForSATScores(with schoolParitionIndex: Int) -> ArraySlice<School> {
         
         let schoolBeginIndex = schoolParitionIndex * Networking.schoolResultsPerCall
@@ -289,6 +348,7 @@ extension SchoolsListViewController: UITableViewDelegate {
         }
     }
     
+    // varies based on regular table vs. filtered from search table
     private func getSchoolClicked(tableView: UITableView, indexPath: IndexPath) -> School? {
         var schoolClicked: School?
         
@@ -314,6 +374,8 @@ extension SchoolsListViewController: UITableViewDelegate {
         }
     }
     
+    // If clicking from the search table, a new api call is guaranteed when clicking a school. A more complex architecture
+    // could try to detect whether the information was already cached, but for the sake of time, search is back end based entirely.
     private func retreiveScoresBased(on tableView: UITableView, schoolClicked: School, indexPath: IndexPath) {
         
         if tableView === schoolsListTableView {
@@ -333,6 +395,14 @@ extension SchoolsListViewController: UITableViewDelegate {
 // MARK: - UISearchResultsUpdating
 extension SchoolsListViewController: UISearchResultsUpdating {
     
+    /*
+     I designed the search so that a new query would initiate every 0.5 seconds after finishing typing unless the query was blank.
+     However, given the nature of asynchronous network calls, it's important to avoid the case where multiple calls are made, but
+     then returned in a different order from which they were made. I didn't want "Aca" results to show up after the user finished
+     typing in "Academy." In addition, I wanted to reduce network calls as much as possible while maintaining a responsive search
+     experience. To do so I created a serial operation queue with a maximum of one operation in the queue. Any previous searches are
+     immediately cancelled and results (if networking was already underway) are ignored.
+    */
     func updateSearchResults(for searchController: UISearchController) {
         
         searchOperationQueue.cancelAllOperations()
@@ -345,6 +415,8 @@ extension SchoolsListViewController: UISearchResultsUpdating {
         enqueueSearchOperation(searchWords: searchWords)
     }
     
+    // Detects the search words and splits up words by white space. That way a search of "High School" can
+    // highlight a school name of "High Hill Elementary School" rather than simply "Hill High School".
     private func getSearchWordsFromSearchBar(searchController: UISearchController) -> [Substring]? {
         let whitespaceCharacterSet = CharacterSet.whitespaces
         if let strippedString = searchController.searchBar.text?.trimmingCharacters(in: whitespaceCharacterSet) {

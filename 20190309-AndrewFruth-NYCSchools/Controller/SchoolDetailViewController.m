@@ -50,6 +50,8 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     [self setLabelsText];
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
+
+// opens up email if mail app on device
 - (IBAction)didClickEmailButton:(UIButton *)sender {
     if (self.school.email) {
         NSString *emailURLString = [NSString stringWithFormat:@"mailto:%@", self.school.email];
@@ -58,6 +60,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     }
 }
 
+// shows phone prompt
 - (IBAction)didClickPhoneButton:(UIButton *)sender {
      if (self.school.phone) {
          NSString *phoneURLString = [NSString stringWithFormat:@"tel://%@", self.school.phone];
@@ -66,6 +69,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
      }
 }
 
+// opens website in safari
 - (IBAction)didClickWebsite:(UIButton *)sender {
     if (self.school.website) {
         NSURL *websiteURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@", self.school.website]];

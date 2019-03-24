@@ -30,7 +30,6 @@ final class SearchResultsTableViewController: UITableViewController {
 
         if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID), filteredSchools.count > indexPath.row {
             let schoolName = filteredSchools[indexPath.row].name
-            boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             schoolCell.textLabel?.numberOfLines = 0
             schoolCell.accessoryType = .disclosureIndicator
             boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
@@ -40,6 +39,7 @@ final class SearchResultsTableViewController: UITableViewController {
         return UITableViewCell()
     }
     
+    // bolds the all the search terms in a school's name
     private func boldSearchTerms(schoolName: String, schoolCell: UITableViewCell) {
         guard let customVCFont = Fonts.regularSF, let bolderFont = Fonts.boldSF else { return }
         let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: [NSAttributedString.Key.font: customVCFont])
