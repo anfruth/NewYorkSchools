@@ -12,7 +12,7 @@ final class SchoolsListViewController: UIViewController {
 
     @IBOutlet private weak var schoolsListTableView: UITableView!
     @IBOutlet private weak var noResultsLabel: UILabel!
-    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    @IBOutlet private weak var refreshButton: UIBarButtonItem!
     
     private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
     private lazy var mainSpinner: MainSpinner? = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner
@@ -35,7 +35,6 @@ final class SchoolsListViewController: UIViewController {
     private let schoolCellID = "schoolCell"
     
     private var searchController: UISearchController?
-    private var waitedIntervalAfterSearch = false
     private let searchOperationQueue = OperationQueue()
     
     private let tableViewPullUpThreshold: CGFloat = -30
