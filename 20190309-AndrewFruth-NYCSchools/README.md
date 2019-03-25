@@ -1,4 +1,4 @@
-# Compiling
+# SwiftLint Warning
 
-To compile and run this app, please `brew install swiftlint`. Otherwise, delete the "Run Script" in Build Phases to delete Swiftlint. 
+To get rid of the swiftlint warning, please `brew install swiftlint`. Otherwise, delete the "Run Script" in Build Phases to delete Swiftlint. 
 
