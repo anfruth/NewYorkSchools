@@ -10,6 +10,8 @@
 #import "_0190309_AndrewFruth_NYCSchools-Swift.h"
 
 static const int SCHOOL_DETAIL_SECTION_HEADER_HEIGHT = 50;
+static const CGFloat FILLER_VIEW_WIDTH = 15;
+static const CGFloat FILLER_VIEW_HEIGHT = 40;
 static NSString * const noOverviewKey = @"NoOverview";
 static NSString * const noEmailKey = @"NoEmail";
 static NSString * const noPhoneKey = @"NoPhone";
@@ -93,6 +95,13 @@ typedef NS_ENUM(NSUInteger, SATTest) {
     [self setEmailField];
     [self setPhoneField];
     [self setWebsiteField];
+}
+
+// so school names aren't too close to the right edge of the nav bar
+- (void)enforceBiggerRightMarginTitleView {
+    UIView *fillerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FILLER_VIEW_WIDTH, FILLER_VIEW_HEIGHT)];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:fillerView];
+    self.navigationItem.rightBarButtonItem = buttonItem;
 }
 
 - (void)setEmailField {

@@ -11,7 +11,7 @@ import Foundation
 @objc class Fonts: NSObject {
     
     @objc static let regularSF = UIFont(name: "SanFranciscoDisplay-Regular", size: 17)
+    @objc static let navigationBarFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 18)
     static let boldSF = UIFont(name: "SanFranciscoDisplay-Bold", size: 17)
-    static let navigationBarFont = UIFont(name: "SanFranciscoDisplay-Bold", size: 20)
     
 }
