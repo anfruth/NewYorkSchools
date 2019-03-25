@@ -10,8 +10,11 @@ import Foundation
 
 struct Networking {
     
-    // With more time I would have like to show a no connection state in the event of a lost internet connection. As it is now,
-    // more schools will not download if the internet is lost, but will download again when it is regained. 
+    /*
+    With more time I would have like to show a no connection state in
+    the event of a lost internet connection. As it is now, more schools will not download
+    if the internet is lost, but will download again when it is regained.
+    */
     
     static let schoolResultsPerCall = 50
     private static let session = URLSession.shared
@@ -19,7 +22,7 @@ struct Networking {
     private static let satEndpoint = "https://data.cityofnewyork.us/resource/f9bf-2cp4.json"
     
     // MARK: - Core Networking Methods
-    static func retrieveSchoolData(with schoolPartitionIndex: Int, completionHandler: @escaping ([School]?) -> ()) {
+    static func retrieveSchoolData(with schoolPartitionIndex: Int, completionHandler: @escaping ([School]?) -> Void) {
         
         let endpoint = Networking.generateSchoolEndpointWithParams(schoolPartitionIndex: schoolPartitionIndex)
         guard let schoolURLWithParams = URL(string: endpoint) else {
@@ -30,7 +33,9 @@ struct Networking {
         Networking.makeSchoolDataNetworkCall(with: schoolURLWithParams, completionHandler: completionHandler)
     }
     
-    static func retrieveAssociatedSATScores(from schools: ArraySlice<School>, completionHandler: @escaping ([SATScores]?, Error?) -> ()) {
+    static func retrieveAssociatedSATScores(from schools: ArraySlice<School>,
+                                            completionHandler: @escaping ([SATScores]?, Error?) -> Void) {
+
         guard let encodedParmaas = generateEncodedParamsForSATScores(from: schools),
             let satURL = URL(string: "\(satEndpoint)\(encodedParmaas)") else {
                 
@@ -38,7 +43,7 @@ struct Networking {
             return
         }
         
-        let task = Networking.session.dataTask(with: satURL) { data, response, error in
+        let task = Networking.session.dataTask(with: satURL) { data, _, error in
             handleSATScoresProcessing(from: data, error: error, completionHandler: completionHandler)
         }
         
@@ -46,7 +51,7 @@ struct Networking {
     }
     
     // search functionality, find schools with nameWords
-    static func retrieveSchools(containing nameWords: [String], completionHandler: @escaping ([School]?) -> ()) {
+    static func retrieveSchools(containing nameWords: [String], completionHandler: @escaping ([School]?) -> Void) {
         let endpoint = Networking.generateSchoolsByNameSearchEndpoint(with: nameWords)
         guard let schoolURLWithSearchParams = URL(string: endpoint) else {
             completionHandler(nil)
@@ -70,9 +75,9 @@ struct Networking {
         let limitParam = "$limit=\(Networking.schoolResultsPerCall)"
         let offset = "$offset=0"
         var whereParams = "$where="
-        for (i, searchTerm) in searchStrings.enumerated() {
+        for (index, searchTerm) in searchStrings.enumerated() {
             whereParams.append("school_name like '%\(searchTerm)%'")
-            if i < searchStrings.count - 1 {
+            if index < searchStrings.count - 1 {
                 whereParams.append(" AND ")
             }
         }
@@ -85,9 +90,10 @@ struct Networking {
         return ""
     }
     
-    private static func makeSchoolDataNetworkCall(with schoolURLWithParams: URL, completionHandler: @escaping ([School]?) -> ()) {
+    private static func makeSchoolDataNetworkCall(with schoolURLWithParams: URL,
+                                                  completionHandler: @escaping ([School]?) -> Void) {
         
-        let task = Networking.session.dataTask(with: schoolURLWithParams) { data, response, error in
+        let task = Networking.session.dataTask(with: schoolURLWithParams) { data, _, _ in
             guard let data = data else {
                 completionHandler(nil)
                 return
@@ -103,7 +109,8 @@ struct Networking {
         task.resume()
     }
     
-    private static func handleSATScoresProcessing(from data: Data?, error: Error?, completionHandler: @escaping ([SATScores]?, Error?) -> ()) {
+    private static func handleSATScoresProcessing(from data: Data?, error: Error?,
+                                                  completionHandler: @escaping ([SATScores]?, Error?) -> Void) {
         
         guard let data = data, let satScores = try? JSONDecoder().decode([SATScores].self, from: data) else {
             completionHandler(nil, error)
@@ -117,9 +124,9 @@ struct Networking {
         let schoolDBNs = schools.map { $0.dbn }
         
         var params = "?$where="
-        for (i, dbn) in schoolDBNs.enumerated() {
+        for (index, dbn) in schoolDBNs.enumerated() {
             params.append("dbn=\"\(dbn)\"")
-            if i < schoolDBNs.count - 1 {
+            if index < schoolDBNs.count - 1 {
                 params.append(" OR ")
             }
         }

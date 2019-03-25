@@ -23,7 +23,8 @@ final class SchoolsListViewController: UIViewController {
     @IBOutlet private weak var refreshButton: UIBarButtonItem!
     
     private lazy var footerSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .gray)
-    private lazy var mainSpinner: MainSpinner? = Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner
+    private lazy var mainSpinner: MainSpinner? =
+        Bundle.main.loadNibNamed("MainSpinner", owner: nil, options: nil)?[0] as? MainSpinner
     
     private var resultsTableController: SearchResultsTableViewController?
     
@@ -107,8 +108,7 @@ final class SchoolsListViewController: UIViewController {
         
         definesPresentationContext = true
     }
-    
-    
+        
     // MARK: - Retrieve And Handle School Data Methods
      /**
      Populates the school list table view with schools.
@@ -117,10 +117,11 @@ final class SchoolsListViewController: UIViewController {
      - Parameter completionHandler: The handler to be executed after school data is finished being processed.
      
      The schoolIndex decides what group of results to display. For example, if the backend database has 400 possible
-     schools, the partition index tells the app which part of those 400 to download. Since Networking.schoolsPerCall is 50,
-     a schoolIndex of 0 would download the first 50 results. An index of 1 would download the 50 results after that.
+     schools, the partition index tells the app which part of those 400 to download. Since Networking.schoolsPerCall
+     is 50, a schoolIndex of 0 would download the first 50 results. An index of 1 would download the 50 results
+     after that.
      */
-    private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> ())? = nil) {
+    private func populateTableWithSchoolData(with schoolIndex: Int = 0, completionHandler: (() -> Void)? = nil) {
         if schoolIndex == 0 { mainSpinner?.start(viewAddingSpinner: view) }
         
         populateTableWithSchoolDataUnderway = true
@@ -129,8 +130,8 @@ final class SchoolsListViewController: UIViewController {
                 DispatchQueue.main.async { self?.mainSpinner?.stop() }
             }
             
-            if let vc = self {
-                vc.handleProcessingSchoolData(with: schools, completionHandler: completionHandler)
+            if let viewController = self {
+                viewController.handleProcessingSchoolData(with: schools, completionHandler: completionHandler)
             } else {
                 completionHandler?()
             }
@@ -159,19 +160,22 @@ final class SchoolsListViewController: UIViewController {
      - Parameter schools: The schools to save.
      - Parameter completionHandler: The handler to be executed after schools are saved.
      
-     The Socrata API does not give a count of total schools when paginating. Therefore, the flag "retrievedAllSchools" is
-     used to determine if there are more results to fetch. This is not ideal because if Socrata ever returned an empty array
-     due to an API error, the app would think there are no more results.
+     The Socrata API does not give a count of total schools when paginating. Therefore, the
+     flag "retrievedAllSchools" is used to determine if there are more results to fetch. This
+     is not ideal because if Socrata ever returned an empty array due to an API error, the app
+     would think there are no more results.
      
-     It was necessary because the app doesn't want to continue
-     to make API calls repeatedly to check if there are more results when scrolling through the table. The best solution would be to
-     have some sort of API call that provides the total count while paginating. Network failures will not make "retrievedAllSchools"
-     true because the schools array will be nil.
+     It was necessary because the app doesn't want to continue to make API calls repeatedly to
+     check if there are more results when scrolling through the table. The best solution would be to
+     have some sort of API call that provides the total count while paginating. Network failures will
+     not make "retrievedAllSchools" true because the schools array will be nil.
      */
-    private func handleProcessingSchoolData(with schools: [School]?, completionHandler: (() -> ())?) {
+    private func handleProcessingSchoolData(with schools: [School]?, completionHandler: (() -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             if let schools = schools {
-                if schools.count == 0 || schools.count < Networking.schoolResultsPerCall { self?.retrievedAllSchools = true }
+                if schools.count == 0 || schools.count < Networking.schoolResultsPerCall {
+                    self?.retrievedAllSchools = true
+                }
                 self?.saveSchoolDataToCacheAndRefreshTable(with: schools)
             }
             
@@ -194,27 +198,30 @@ final class SchoolsListViewController: UIViewController {
      - Parameter schoolClicked: The school clicked.
      - Parameter indexPath: The indexPath of the cell clicked.
      
-     Upon clicking a school, this method will download the SAT scores of that school and some surrounding schools to save on
-     extra network calls if surrounding schools are clicked as well. Some schools may not have SAT scores or the SAT network call
-     could fail. If either case happens, that school detail page will show SAT scores as unavailable.
+     Upon clicking a school, this method will download the SAT scores of that school and some surrounding
+     schools to save on extra network calls if surrounding schools are clicked as well. Some schools may
+     not have SAT scores or the SAT network call could fail. If either case happens, that school detail
+     page will show SAT scores as unavailable.
      */
     private func handleRetrievingSATScores(with schoolClicked: School, indexPath: IndexPath) {
         let schoolParitionIndex = getSchoolPartitionIndex(from: indexPath.row)
         
         mainSpinner?.start(viewAddingSpinner: view)
-        addSATDataToSchools(with: schoolParitionIndex) { [weak self] error in
+        addSATDataToSchools(with: schoolParitionIndex) { [weak self] _ in
             self?.mainSpinner?.stop()
             self?.performDetailVCSegue(with: schoolClicked)
         }
     }
     
     // helper method for the above.
-    private func addSATDataToSchools(with schoolPartitionIndex: Int, completionHandler: @escaping (Error?) -> ()) {
+    private func addSATDataToSchools(with schoolPartitionIndex: Int, completionHandler: @escaping (Error?) -> Void) {
         let schoolsToQuery = getSchoolsToQueryForSATScores(with: schoolPartitionIndex)
         
         Networking.retrieveAssociatedSATScores(from: schoolsToQuery) { [weak self] (satScoresList, error) in
-            if let vc = self {
-                vc.handleProcessingSATScores(for: schoolsToQuery, satScoresList: satScoresList, error: error, completionHandler: completionHandler)
+            if let viewController = self {
+                viewController.handleProcessingSATScores(for: schoolsToQuery,
+                                                         satScoresList: satScoresList, error: error,
+                                                         completionHandler: completionHandler)
             } else {
                 completionHandler(error)
             }
@@ -222,12 +229,13 @@ final class SchoolsListViewController: UIViewController {
     }
     
     // helper method for the above.
-    private func addSATDataToSchool(with school: School, completionHandler: @escaping (Error?) -> ()) {
+    private func addSATDataToSchool(with school: School, completionHandler: @escaping (Error?) -> Void) {
         let schools: ArraySlice<School> = [school]
         
         Networking.retrieveAssociatedSATScores(from: schools) { [weak self] (satScoresList, error) in
-            if let vc = self {
-                vc.handleProcessingSATScores(for: schools, satScoresList: satScoresList, error: error, completionHandler: completionHandler)
+            if let viewController = self {
+                viewController.handleProcessingSATScores(for: schools, satScoresList: satScoresList, error: error,
+                                                         completionHandler: completionHandler)
             } else {
                 completionHandler(error)
             }
@@ -244,10 +252,12 @@ final class SchoolsListViewController: UIViewController {
      - Parameter error: Any error from the network API call.
      - Parameter completionHandler: Handler to be called after processing SAT scores is complete.
      
-     Relates unique dbn identifier of schools to SAT scores. Uses dictionary rather than repeated array traversal for added
-     efficiency.
+     Relates unique dbn identifier of schools to SAT scores. Uses dictionary rather than repeated
+     array traversal for added efficiency.
      */
-    private func handleProcessingSATScores(for schoolsToQuery: ArraySlice<School>, satScoresList: [SATScores]?, error: Error?, completionHandler: @escaping (Error?) -> () ) {
+    private func handleProcessingSATScores(for schoolsToQuery: ArraySlice<School>,
+                                           satScoresList: [SATScores]?, error: Error?,
+                                           completionHandler: @escaping (Error?) -> Void) {
         
         guard let satScoresList = satScoresList, error == nil else {
             DispatchQueue.main.async { completionHandler(error) }
@@ -318,7 +328,8 @@ final class SchoolsListViewController: UIViewController {
     private func needToDownloadMoreSchools(schoolsCount: Int, indexPath: IndexPath?) -> Bool {
         
         if let indexPath = indexPath {
-            let lastDownloadCellDisplayed = lastDownloadedCellWillDisplay(schoolsCount: schoolsCount, indexPath: indexPath)
+            let lastDownloadCellDisplayed = lastDownloadedCellWillDisplay(schoolsCount: schoolsCount,
+                                                                          indexPath: indexPath)
             return lastDownloadCellDisplayed && !populateTableWithSchoolDataUnderway && !retrievedAllSchools
             
         } else {
@@ -331,7 +342,8 @@ final class SchoolsListViewController: UIViewController {
         return schoolsCount - 1 == indexPath.row
     }
     
-    // Thanks to: https://stackoverflow.com/questions/27190848/how-to-show-pull-to-refresh-element-at-the-bottom-of-the-uitableview-in-swift
+    // Thanks to:
+    // https://stackoverflow.com/questions/27190848/how-to-show-pull-to-refresh-element-at-the-bottom-of-the-uitableview-in-swift
     private func isTableViewPulledUp() -> Bool {
         let currentOffset = schoolsListTableView.contentOffset.y
         let maxOffset = schoolsListTableView.contentSize.height - schoolsListTableView.frame.size.height
@@ -414,8 +426,12 @@ extension SchoolsListViewController: UITableViewDelegate {
         }
     }
     
-    // If clicking from the search table, a new api call is guaranteed when clicking a school. A more complex architecture
-    // could try to detect whether the information was already cached, but for the sake of time, search is back end based entirely.
+    /*
+     If clicking from the search table, a new api call is guaranteed
+     when clicking a school. A more complex architecture
+     could try to detect whether the information was already cached,
+     but for the sake of time, search is back end based entirely.
+    */
     private func retreiveScoresBased(on tableView: UITableView, schoolClicked: School, indexPath: IndexPath) {
         
         if tableView === schoolsListTableView {
@@ -423,7 +439,7 @@ extension SchoolsListViewController: UITableViewDelegate {
             
         } else if let resultsTableController = resultsTableController {
             mainSpinner?.start(viewAddingSpinner: resultsTableController.view)
-            addSATDataToSchool(with: schoolClicked) { [weak self] error in
+            addSATDataToSchool(with: schoolClicked) { [weak self] _ in
                 self?.mainSpinner?.stop()
                 self?.performDetailVCSegue(with: schoolClicked)
             }
@@ -445,12 +461,13 @@ extension SchoolsListViewController: UIScrollViewDelegate {
 extension SchoolsListViewController: UISearchResultsUpdating {
     
     /*
-     I designed the search so that a new query would initiate every 0.5 seconds after finishing typing unless the query was blank.
-     However, given the nature of asynchronous network calls, it's important to avoid the case where multiple calls are made, but
-     then returned in a different order from which they were made. I didn't want "Aca" results to show up after the user finished
-     typing in "Academy." In addition, I wanted to reduce network calls as much as possible while maintaining a responsive search
-     experience. To do so I created a serial operation queue. Any previous searches are immediately cancelled and results
-     (if networking was already underway) are ignored.
+     I designed the search so that a new query would initiate every 0.5 seconds after finishing typing unless
+     the query was blank. However, given the nature of asynchronous network calls, it's important to avoid
+     the case where multiple calls are made, but then returned in a different order from which they were made.
+     I didn't want "Aca" results to show up after the user finished typing in "Academy." In addition, I wanted to
+     reduce network calls as much as possible while maintaining a responsive search experience. To do so I created
+     a serial operation queue. Any previous searches are immediately cancelled and results (if networking was
+     already underway) are ignored.
     */
     func updateSearchResults(for searchController: UISearchController) {
         
@@ -484,7 +501,8 @@ extension SchoolsListViewController: UISearchResultsUpdating {
         
         let fullSearchStrings: [String] = searchWords.map { String($0) }
         resultsTableController?.allSearchStrings = searchWords.map { String($0) }
-        let operation: SearchOperation = SearchOperation(searchOperationDelegate: self, searchTerms: fullSearchStrings) { [weak self] schools in
+        let operation: SearchOperation = SearchOperation(searchOperationDelegate: self,
+                                                         searchTerms: fullSearchStrings) { [weak self] schools in
            self?.handleCompletedSearchOperation(schools: schools)
         }
         
@@ -518,5 +536,4 @@ extension SchoolsListViewController: SearchOperationDelegate {
             self?.mainSpinner?.stop()
         }
     }
-    
 }

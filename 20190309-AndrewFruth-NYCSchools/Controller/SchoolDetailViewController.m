@@ -10,7 +10,7 @@
 #import "_0190309_AndrewFruth_NYCSchools-Swift.h"
 
 static const int SCHOOL_DETAIL_SECTION_HEADER_HEIGHT = 50;
-static const CGFloat FILLER_VIEW_WIDTH = 15;
+static const CGFloat FILLER_VIEW_WIDTH = 10;
 static const CGFloat FILLER_VIEW_HEIGHT = 40;
 static NSString * const noOverviewKey = @"NoOverview";
 static NSString * const noEmailKey = @"NoEmail";
@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, SATTest) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createSelfSizingLabels];
+    [self enforceBiggerRightMarginTitleView];
     
     self.title = self.school.name;
     [self setLabelsText];

@@ -29,7 +29,8 @@ class MainSpinner: UIView {
             widthAnchor.constraint(equalToConstant: 150).isActive = true
             heightAnchor.constraint(equalToConstant: 150).isActive = true
             centerXAnchor.constraint(equalTo: superview.centerXAnchor).isActive = true
-            centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: superview.bounds.origin.y).isActive = true
+            centerYAnchor.constraint(equalTo: superview.centerYAnchor,
+                                     constant: superview.bounds.origin.y).isActive = true
             translatesAutoresizingMaskIntoConstraints = false
         }
     }

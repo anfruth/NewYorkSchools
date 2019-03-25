@@ -24,11 +24,11 @@ final class SearchResultsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredSchools.count
     }
-
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID), filteredSchools.count > indexPath.row {
+        if let schoolCell = tableView.dequeueReusableCell(withIdentifier: filteredSchoolID),
+            filteredSchools.count > indexPath.row {
             let schoolName = filteredSchools[indexPath.row].name
             schoolCell.textLabel?.numberOfLines = 0
             schoolCell.accessoryType = .disclosureIndicator
@@ -42,7 +42,8 @@ final class SearchResultsTableViewController: UITableViewController {
     // bolds the all the search terms in a school's name
     private func boldSearchTerms(schoolName: String, schoolCell: UITableViewCell) {
         guard let customVCFont = Fonts.regularSF, let bolderFont = Fonts.boldSF else { return }
-        let attributedSchoolName = NSMutableAttributedString(string: schoolName, attributes: [NSAttributedString.Key.font: customVCFont])
+        let attributedSchoolName =
+            NSMutableAttributedString(string: schoolName, attributes: [NSAttributedString.Key.font: customVCFont])
         
         for searchString in allSearchStrings {
             let rangesToBold = (schoolName as NSString).getRanges(of: searchString)
@@ -55,7 +56,8 @@ final class SearchResultsTableViewController: UITableViewController {
     }
 }
 
-// adopted from https://stackoverflow.com/questions/7033574/find-all-locations-of-substring-in-nsstring-not-just-first/7033787
+// adopted from
+// https://stackoverflow.com/questions/7033574/find-all-locations-of-substring-in-nsstring-not-just-first/7033787
 // not worried about getting overlapping substrings
 extension NSString {
     
@@ -64,7 +66,7 @@ extension NSString {
         var searchRange = NSMakeRange(0, length)
         var foundRange: NSRange
         
-        while (searchRange.location < length) {
+        while searchRange.location < length {
             searchRange.length = length - searchRange.location
             foundRange = range(of: substring, options: [], range: searchRange)
             

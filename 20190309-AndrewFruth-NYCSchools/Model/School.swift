@@ -28,7 +28,8 @@ import Foundation
         case website
     }
 
-    // If the school has no SAT scores and scores are available (no prior API call showed they were not) then this returns true.
+    /* If the school has no SAT scores and scores are available
+    (no prior API call showed they were not) then this returns true. */
     func needsToRetrieveScores() -> Bool {
         return satScores == nil && !noScoreAvailable
     }

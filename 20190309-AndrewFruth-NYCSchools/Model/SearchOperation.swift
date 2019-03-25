@@ -10,11 +10,11 @@ import Foundation
 
 final class SearchOperation: Operation {
     
-    typealias SchoolCompletionHandler = (([School]?) -> ())?
+    typealias SchoolCompletionHandler = (([School]?) -> Void)?
     
     private weak var searchOperationDelegte: SearchOperationDelegate?
     private let searchTerms: [String]
-    private let completionHandler: (([School]?) -> ())?
+    private let completionHandler: (([School]?) -> Void)?
     private let secondsDelayFromTypingSearch = 0.5
     private let isExecutingKey = "isExecuting"
     private let isFinishedKey = "isFinished"
@@ -44,7 +44,8 @@ final class SearchOperation: Operation {
         return _isFinished
     }
     
-    init(searchOperationDelegate: SearchOperationDelegate, searchTerms: [String], completionHandler: SchoolCompletionHandler) {
+    init(searchOperationDelegate: SearchOperationDelegate, searchTerms: [String],
+         completionHandler: SchoolCompletionHandler) {
         _isExecuting = false
         _isFinished = false
         
@@ -60,7 +61,8 @@ final class SearchOperation: Operation {
         if isCancelledAndFinish() { return }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + secondsDelayFromTypingSearch) { [weak self] in
-            guard let operation = self else { return } // operation must have finished if self is nil so no need to finishOp (should never happen)
+            // operation must have finished if self is nil so no need to finishOp (should never happen)
+            guard let operation = self else { return }
             
             if !operation.isCancelled {
                 operation.runOperationAfterDelay()
@@ -74,7 +76,7 @@ final class SearchOperation: Operation {
     private func runOperationAfterDelay() {
         searchOperationDelegte?.willMakeSearchNetworkCall()
         Networking.retrieveSchools(containing: searchTerms) { [weak self] schools in
-            guard let operation = self else { return } // operation must have finished if self is nil so no need to finishOp (should never happen)
+            guard let operation = self else { return }
             
             operation.searchOperationDelegte?.didFinishSearchNetworkCall()
             if operation.isCancelledAndFinish() { return }

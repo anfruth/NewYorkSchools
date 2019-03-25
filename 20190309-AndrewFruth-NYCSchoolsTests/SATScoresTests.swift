@@ -14,9 +14,11 @@ class SATScoresTests: XCTestCase {
     var satScores: SATScores!
 
     override func setUp() {
-        let satScoresDict = ["dbn": "123", "sat_critical_reading_avg_score": "500", "sat_math_avg_score": "550", "sat_writing_avg_score": "575"]
-        let satData =  try! JSONSerialization.data(withJSONObject: satScoresDict, options: [])
-        satScores = try? JSONDecoder().decode(SATScores.self, from: satData)
+        let satScoresDict = ["dbn": "123", "sat_critical_reading_avg_score": "500",
+                             "sat_math_avg_score": "550", "sat_writing_avg_score": "575"]
+        if let satData =  try? JSONSerialization.data(withJSONObject: satScoresDict, options: []) {
+            satScores = try? JSONDecoder().decode(SATScores.self, from: satData)
+        }
         
     }
 
