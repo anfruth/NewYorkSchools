@@ -9,6 +9,14 @@
 import UIKit
 
 final class SchoolsListViewController: UIViewController {
+    
+    /*
+     In the event there were a lot more than ~400 schools, the app would want want to handle the case
+     of storing too many schools in memory. Using something like NSCache and pagination could accomplish
+     that. Right now, the app paginates as you scroll down, downloading 50 schools at a time. The app could
+     choose to delete schools that are furthest away from where the user currently is on the table and only
+     redownload them upon scrolling back up to that area of the table.
+    */
 
     @IBOutlet private weak var schoolsListTableView: UITableView!
     @IBOutlet private weak var noResultsLabel: UILabel!
@@ -465,12 +473,11 @@ extension SchoolsListViewController: UISearchResultsUpdating {
      */
     private func getSearchWordsFromSearchBar(searchController: UISearchController) -> [Substring]? {
         let whitespaceCharacterSet = CharacterSet.whitespaces
-        if let strippedString = searchController.searchBar.text?.trimmingCharacters(in: whitespaceCharacterSet) {
-            let capString = strippedString.capitalized
-            return capString.split(separator: " ")
-        }
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return nil }
         
-        return nil
+        let strippedString = searchText.trimmingCharacters(in: whitespaceCharacterSet)
+        let capString = strippedString.capitalized
+        return capString.split(separator: " ")
     }
     
     private func enqueueSearchOperation(searchWords: [Substring]) {
