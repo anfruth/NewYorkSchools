@@ -7,12 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77197E572240BF9500508D20 /* SearchOperationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77197E562240BF9500508D20 /* SearchOperationDelegate.swift */; };
+		7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */; };
+		7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B05C223E34D200F4B3EA /* SearchOperation.swift */; };
+		7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7736B05E223EC88100F4B3EA /* MainSpinner.xib */; };
+		7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7736B060223EC99A00F4B3EA /* MainSpinner.swift */; };
+		7748BF8522449CD900FC2487 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF8422449CD900FC2487 /* Localizable.strings */; };
+		7748BF962247062A00FC2487 /* SanFranciscoDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */; };
+		7748BF982247063400FC2487 /* SanFranciscoDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */; };
+		7748BF9A22470D2800FC2487 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9922470D2800FC2487 /* Fonts.swift */; };
+		7748BF9C22471B3700FC2487 /* SATScoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9B22471B3700FC2487 /* SATScoresTests.swift */; };
+		7748BF9E2247231900FC2487 /* SearchOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748BF9D2247231900FC2487 /* SearchOperationTests.swift */; };
 		77888E12223468B100308D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E11223468B100308D29 /* AppDelegate.swift */; };
-		77888E14223468B100308D29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* ViewController.swift */; };
+		77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E13223468B100308D29 /* SchoolsListViewController.swift */; };
 		77888E17223468B100308D29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E15223468B100308D29 /* Main.storyboard */; };
 		77888E19223468B300308D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77888E18223468B300308D29 /* Assets.xcassets */; };
 		77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77888E1A223468B300308D29 /* LaunchScreen.storyboard */; };
-		77888E27223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */; };
+		77888E27223468B300308D29 /* SchoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E26223468B300308D29 /* SchoolTests.swift */; };
+		77888E322234734F00308D29 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E312234734F00308D29 /* Networking.swift */; };
+		77888E342234770600308D29 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E332234770600308D29 /* School.swift */; };
+		77888E36223478C300308D29 /* SATScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77888E35223478C300308D29 /* SATScores.swift */; };
+		77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77888E392234CED000308D29 /* SchoolDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +41,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		77197E562240BF9500508D20 /* SearchOperationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperationDelegate.swift; sourceTree = "<group>"; };
+		7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
+		7736B05C223E34D200F4B3EA /* SearchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperation.swift; sourceTree = "<group>"; };
+		7736B05E223EC88100F4B3EA /* MainSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSpinner.xib; sourceTree = "<group>"; };
+		7736B060223EC99A00F4B3EA /* MainSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSpinner.swift; sourceTree = "<group>"; };
+		7748BF8422449CD900FC2487 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Regular.otf"; sourceTree = "<group>"; };
+		7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Bold.otf"; sourceTree = "<group>"; };
+		7748BF9922470D2800FC2487 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		7748BF9B22471B3700FC2487 /* SATScoresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATScoresTests.swift; sourceTree = "<group>"; };
+		7748BF9D2247231900FC2487 /* SearchOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperationTests.swift; sourceTree = "<group>"; };
 		77888E0E223468B100308D29 /* 20190309-AndrewFruth-NYCSchools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchools.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77888E11223468B100308D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		77888E13223468B100308D29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		77888E13223468B100308D29 /* SchoolsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolsListViewController.swift; sourceTree = "<group>"; };
 		77888E16223468B100308D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		77888E18223468B300308D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77888E1B223468B300308D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77888E1D223468B300308D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77888E22223468B300308D29 /* 20190309-AndrewFruth-NYCSchoolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "20190309-AndrewFruth-NYCSchoolsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _0190309_AndrewFruth_NYCSchoolsTests.swift; sourceTree = "<group>"; };
+		77888E26223468B300308D29 /* SchoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolTests.swift; sourceTree = "<group>"; };
 		77888E28223468B300308D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77888E312234734F00308D29 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		77888E332234770600308D29 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		77888E35223478C300308D29 /* SATScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATScores.swift; sourceTree = "<group>"; };
+		77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "20190309-AndrewFruth-NYCSchools-Bridging-Header.h"; sourceTree = "<group>"; };
+		77888E382234CED000308D29 /* SchoolDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SchoolDetailViewController.h; sourceTree = "<group>"; };
+		77888E392234CED000308D29 /* SchoolDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SchoolDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +88,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77197E552240BF7000508D20 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				77197E562240BF9500508D20 /* SearchOperationDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		773CA10B2235F1700082742D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				77888E332234770600308D29 /* School.swift */,
+				77888E35223478C300308D29 /* SATScores.swift */,
+				7736B05C223E34D200F4B3EA /* SearchOperation.swift */,
+				7748BF9922470D2800FC2487 /* Fonts.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		773CA10C2235F1930082742D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				77888E13223468B100308D29 /* SchoolsListViewController.swift */,
+				77888E382234CED000308D29 /* SchoolDetailViewController.h */,
+				77888E392234CED000308D29 /* SchoolDetailViewController.m */,
+				77888E312234734F00308D29 /* Networking.swift */,
+				7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		773CA10E2235F1C10082742D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
+				77888E15223468B100308D29 /* Main.storyboard */,
+				7736B05E223EC88100F4B3EA /* MainSpinner.xib */,
+				7736B060223EC99A00F4B3EA /* MainSpinner.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7748BF942247060800FC2487 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7748BF952247062A00FC2487 /* SanFranciscoDisplay-Regular.otf */,
+				7748BF972247063400FC2487 /* SanFranciscoDisplay-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		77888E05223468B100308D29 = {
 			isa = PBXGroup;
 			children = (
@@ -78,11 +161,15 @@
 			isa = PBXGroup;
 			children = (
 				77888E11223468B100308D29 /* AppDelegate.swift */,
-				77888E13223468B100308D29 /* ViewController.swift */,
-				77888E15223468B100308D29 /* Main.storyboard */,
+				773CA10E2235F1C10082742D /* View */,
+				773CA10C2235F1930082742D /* Controller */,
+				773CA10B2235F1700082742D /* Model */,
+				77197E552240BF7000508D20 /* Protocol */,
+				7748BF942247060800FC2487 /* Fonts */,
 				77888E18223468B300308D29 /* Assets.xcassets */,
-				77888E1A223468B300308D29 /* LaunchScreen.storyboard */,
 				77888E1D223468B300308D29 /* Info.plist */,
+				7748BF8422449CD900FC2487 /* Localizable.strings */,
+				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
 			);
 			path = "20190309-AndrewFruth-NYCSchools";
 			sourceTree = "<group>";
@@ -90,7 +177,9 @@
 		77888E25223468B300308D29 /* 20190309-AndrewFruth-NYCSchoolsTests */ = {
 			isa = PBXGroup;
 			children = (
-				77888E26223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift */,
+				77888E26223468B300308D29 /* SchoolTests.swift */,
+				7748BF9B22471B3700FC2487 /* SATScoresTests.swift */,
+				7748BF9D2247231900FC2487 /* SearchOperationTests.swift */,
 				77888E28223468B300308D29 /* Info.plist */,
 			);
 			path = "20190309-AndrewFruth-NYCSchoolsTests";
@@ -106,6 +195,7 @@
 				77888E0A223468B100308D29 /* Sources */,
 				77888E0B223468B100308D29 /* Frameworks */,
 				77888E0C223468B100308D29 /* Resources */,
+				7748BFA02248674600FC2487 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -146,6 +236,7 @@
 				TargetAttributes = {
 					77888E0D223468B100308D29 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					77888E21223468B300308D29 = {
 						CreatedOnToolsVersion = 10.1;
@@ -177,7 +268,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7748BF982247063400FC2487 /* SanFranciscoDisplay-Bold.otf in Resources */,
+				7748BF8522449CD900FC2487 /* Localizable.strings in Resources */,
+				7736B05F223EC88100F4B3EA /* MainSpinner.xib in Resources */,
 				77888E1C223468B300308D29 /* LaunchScreen.storyboard in Resources */,
+				7748BF962247062A00FC2487 /* SanFranciscoDisplay-Regular.otf in Resources */,
 				77888E19223468B300308D29 /* Assets.xcassets in Resources */,
 				77888E17223468B100308D29 /* Main.storyboard in Resources */,
 			);
@@ -192,13 +287,42 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7748BFA02248674600FC2487 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		77888E0A223468B100308D29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77888E14223468B100308D29 /* ViewController.swift in Sources */,
+				77888E322234734F00308D29 /* Networking.swift in Sources */,
+				77888E14223468B100308D29 /* SchoolsListViewController.swift in Sources */,
+				77197E572240BF9500508D20 /* SearchOperationDelegate.swift in Sources */,
 				77888E12223468B100308D29 /* AppDelegate.swift in Sources */,
+				77888E36223478C300308D29 /* SATScores.swift in Sources */,
+				7736B061223EC99A00F4B3EA /* MainSpinner.swift in Sources */,
+				77888E342234770600308D29 /* School.swift in Sources */,
+				7736B05B223E0EDD00F4B3EA /* SearchResultsTableViewController.swift in Sources */,
+				7748BF9A22470D2800FC2487 /* Fonts.swift in Sources */,
+				77888E3A2234CED000308D29 /* SchoolDetailViewController.m in Sources */,
+				7736B05D223E34D200F4B3EA /* SearchOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +330,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77888E27223468B300308D29 /* _0190309_AndrewFruth_NYCSchoolsTests.swift in Sources */,
+				77888E27223468B300308D29 /* SchoolTests.swift in Sources */,
+				7748BF9C22471B3700FC2487 /* SATScoresTests.swift in Sources */,
+				7748BF9E2247231900FC2487 /* SearchOperationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +486,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L6677SELQ2;
 				INFOPLIST_FILE = "20190309-AndrewFruth-NYCSchools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -369,6 +497,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "andrew.fruth.-0190309-AndrewFruth-NYCSchools";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "20190309-AndrewFruth-NYCSchools/20190309-AndrewFruth-NYCSchools-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -378,7 +508,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L6677SELQ2;
 				INFOPLIST_FILE = "20190309-AndrewFruth-NYCSchools/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -387,6 +519,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "andrew.fruth.-0190309-AndrewFruth-NYCSchools";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "20190309-AndrewFruth-NYCSchools/20190309-AndrewFruth-NYCSchools-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
