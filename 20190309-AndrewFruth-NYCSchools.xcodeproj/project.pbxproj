@@ -42,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		77197E562240BF9500508D20 /* SearchOperationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperationDelegate.swift; sourceTree = "<group>"; };
+		771BFEBB22487BE50030AC24 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7736B05A223E0EDD00F4B3EA /* SearchResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		7736B05C223E34D200F4B3EA /* SearchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOperation.swift; sourceTree = "<group>"; };
 		7736B05E223EC88100F4B3EA /* MainSpinner.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSpinner.xib; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 				77888E1D223468B300308D29 /* Info.plist */,
 				7748BF8422449CD900FC2487 /* Localizable.strings */,
 				77888E372234CED000308D29 /* 20190309-AndrewFruth-NYCSchools-Bridging-Header.h */,
+				771BFEBB22487BE50030AC24 /* README.md */,
 			);
 			path = "20190309-AndrewFruth-NYCSchools";
 			sourceTree = "<group>";
