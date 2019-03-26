@@ -133,7 +133,10 @@ final class SchoolsListViewController: UIViewController {
             if let viewController = self {
                 viewController.handleProcessingSchoolData(with: schools, completionHandler: completionHandler)
             } else {
-                completionHandler?()
+                DispatchQueue.main.async { [weak self] in
+                    self?.populateTableWithSchoolDataUnderway = false
+                    completionHandler?()
+                }
             }
         }
     }
