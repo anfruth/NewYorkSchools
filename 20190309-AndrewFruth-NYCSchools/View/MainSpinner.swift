@@ -16,11 +16,13 @@ class MainSpinner: UIView {
         viewAddingSpinner.addSubview(self)
         layer.cornerRadius = 5
         setupConstraints()
+        UIApplication.shared.beginIgnoringInteractionEvents()
         transitionVCSpinner.startAnimating()
     }
     
     func stop() {
         transitionVCSpinner.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
         removeFromSuperview()
     }
     
