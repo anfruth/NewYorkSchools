@@ -91,7 +91,6 @@ final class SchoolsListViewController: UIViewController {
     }
     
     /**
-     Creates a personalized greeting for a recipient.
         Sets up the search controller and bar.
      */
     private func setupSearchController() {

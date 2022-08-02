@@ -32,6 +32,7 @@ final class SearchResultsTableViewController: UITableViewController {
             let schoolName = filteredSchools[indexPath.row].name
             schoolCell.textLabel?.numberOfLines = 0
             schoolCell.accessoryType = .disclosureIndicator
+            schoolCell.selectionStyle = .none
             boldSearchTerms(schoolName: schoolName, schoolCell: schoolCell)
             return schoolCell
         }
